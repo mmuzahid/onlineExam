@@ -1,0 +1,50 @@
+<div class="well sidebar-nav">
+	<ul class="nav nav-list">
+		
+		<!-- Users Menu -->
+		#{deadbolt.externalizedRestriction externalRestrictions:['View User', 'Edit User', 'Edit Exam']}
+			
+			<li class="nav-header">Menu</li>
+			
+			#{deadbolt.externalizedRestriction externalRestrictions:['Edit Exam']}
+			<li#{if 'Exams.createExam' == request.action} class="active"#{/if}><a href="@{Exams.createExam()}"><i class="icon-plus"></i> New Exam</a></li>
+			<li#{if "Exams.listExam" == request.action
+				|| 	"Exams.invite" == request.action
+				|| 	"Exams.questionsExam" == request.action
+				|| 	"Exams.editExam" == request.action
+				|| 	"Exams.editQuestion" == request.action
+				|| 	"Exams.addQuestion" == request.action
+				|| 	"Exams.settingsExam" == request.action
+				|| 	"Exams.previewExam" == request.action
+				} class="active"#{/if}><a href="@{Exams.listExam()}"><i class="icon-list"></i> Exams</a></li>
+			
+			#{/deadbolt.externalizedRestriction}
+			
+			#{deadbolt.externalizedRestriction externalRestrictions:['Edit User']}
+			<li#{if 'Users.create' == request.action} class="active"#{/if}><a href="@{Users.create()}"><i class="icon-plus"></i> New User</a></li>
+			*{
+			<li#{if 'Users.roleList' == request.action || 'Users.roleEdit' == request.action} class="active"#{/if}><a href="@{Users.roleList()}"><i class="icon-list"></i> Roles</a></li>
+			<li#{if 'Users.roleCreate' == request.action} class="active"#{/if}><a href="@{Users.roleCreate()}"><i class="icon-plus"></i> New Role</a></li>
+			}*
+			#{/deadbolt.externalizedRestriction}
+			*{
+			#{deadbolt.externalizedRestriction externalRestrictions:['ACL']}
+			<li#{if 'Users.acl' == request.action} class="active"#{/if}><a href="@{Users.acl()}"><i class="icon-cog"></i> Access Control List</a></li>
+			#{/deadbolt.externalizedRestriction}
+			}*
+			#{deadbolt.externalizedRestriction externalRestrictions:['View User']}
+			<li#{if 'Users.list' == request.action ||
+			'Users.edit' == request.action} class="active"#{/if}><a href="@{Users.list()}"><i class="icon-list"></i> Users</a></li>
+			#{/deadbolt.externalizedRestriction}
+			
+		#{/deadbolt.externalizedRestriction}
+		
+		<!-- for not logged user -->
+		#{ifnot currentUser?.name}
+		<li><a class="" href="@{Secure.login()}"><i class="icon-lock"></i>  Login</a></li>
+		<li><a class="" href="@@{Users.signup}"><i class="icon-user"></i> &{'secure.signup'}</a></li>
+		#{/ifnot}	
+		
+	</ul>
+</div>
+<!--/.well -->

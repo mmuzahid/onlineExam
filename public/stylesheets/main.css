@@ -1,0 +1,283 @@
+@import url(https://fonts.googleapis.com/css?family=Telex);
+p, label, input, button, select, textarea {
+    font-family: Telex, sans-serif;
+}
+body {
+    font-family: Telex, sans-serif;
+}
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+/* Nav Bar */
+/*
+.navbar-inner {
+  background-color: #963232;
+  background-image: -moz-linear-gradient(top, #9d3636, #8c2828);
+  background-image: -ms-linear-gradient(top, #9d3636, #8c2828);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#9d3636), to(#8c2828));
+  background-image: -webkit-linear-gradient(top, #9d3636, #8c2828);
+  background-image: -o-linear-gradient(top, #9d3636, #8c2828);
+  background-image: linear-gradient(top, #9d3636, #8c2828);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9d3636', endColorstr='#8c2828', GradientType=0);
+}
+*/
+
+
+.table-details td:first-child {
+    font-weight: bold;
+}
+
+/* Common */
+.top {
+    margin-top: 0;
+}
+.danger {
+    color: #bd362f;
+}
+
+/* Utillities */
+.mb0 {
+    margin-bottom: 0;
+}
+.mb20 {
+    margin-bottom: 20px;
+}
+.ml10 {
+    margin-left: 10px;
+}
+.mt20 {
+    margin-top: 20px;
+}
+
+/* Filter */
+.filter .hide {
+    display: none;
+}
+
+/* ACL */
+.acl th, .acl td:not(:first-child) {
+    text-align: center;
+}
+.acl tr > :nth-child(even) {
+    background: #f9f9f9;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.acl td:first-child {
+    font-weight: bold;
+}
+.login , .signup{
+    margin: 0 auto;
+    width: 370px;
+}
+.login .fields {
+    margin-left: 30px;
+}
+.login .well {
+    background: #fafafa;
+    padding-bottom: 0;
+}
+.btn-sign-up{
+	margin: 5px auto;
+    width: 300px;
+}
+
+/* Users */
+
+.center {
+    text-align: center;
+}
+.table th, .table td {
+    max-width: 325px;
+}
+.table td a.btn {
+    margin: 2px 0;
+}
+.table td.buttons {
+    padding: 5px;
+}
+
+
+/***carousel**/
+
+
+.carousel {
+  position: relative;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-inner > .item {
+  position: relative;
+  display: none;
+  -webkit-transition: 0.6s ease-in-out left;
+     -moz-transition: 0.6s ease-in-out left;
+       -o-transition: 0.6s ease-in-out left;
+          transition: 0.6s ease-in-out left;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  line-height: 1;
+}
+
+.carousel-inner > .active,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  display: block;
+}
+
+.carousel-inner > .active {
+  left: 0;
+}
+
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.carousel-inner > .next {
+  left: 100%;
+}
+
+.carousel-inner > .prev {
+  left: -100%;
+}
+
+.carousel-inner > .next.left,
+.carousel-inner > .prev.right {
+  left: 0;
+}
+
+.carousel-inner > .active.left {
+  left: -100%;
+}
+
+.carousel-inner > .active.right {
+  left: 100%;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 40%;
+  left: 15px;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  font-size: 60px;
+  font-weight: 100;
+  line-height: 30px;
+  color: #ffffff;
+  text-align: center;
+  background: #222222;
+  border: 3px solid #ffffff;
+  -webkit-border-radius: 23px;
+     -moz-border-radius: 23px;
+          border-radius: 23px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.carousel-control.right {
+  right: 15px;
+  left: auto;
+}
+
+.carousel-control:hover,
+.carousel-control:focus {
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+
+.carousel-indicators {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 5;
+  margin: 0;
+  list-style: none;
+}
+
+.carousel-indicators li {
+  display: block;
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  text-indent: -999px;
+  background-color: #ccc;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+}
+
+.carousel-indicators .active {
+  background-color: #fff;
+}
+
+.carousel-caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 15px;
+  background: #333333;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.carousel-caption h4,
+.carousel-caption p {
+  line-height: 20px;
+  color: #ffffff;
+}
+
+.carousel-caption h4 {
+  margin: 0 0 5px;
+}
+
+.carousel-caption p {
+  margin-bottom: 0;
+}
+
+/**navbar custom1*/
+
+/**time countdown**/
+.styled{
+  margin-bottom: 50px;
+}
+.styled div {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 100;
+  line-height: 1;
+  text-align: right;
+}
+/* IE7 inline-block hack */
+*+html .styled div{
+  display: inline;
+  zoom: 1;
+}
+.styled div:first-child {
+  margin-left: 0;
+}
+.styled div span {
+  display: block;
+  border-top: 1px solid #cecece;
+  padding-top: 3px;
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-align: left;
+}

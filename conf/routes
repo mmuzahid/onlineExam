@@ -1,0 +1,89 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/											Application.index
+GET		/field-status											children.fieldStatus
+GET		/children											Children.list
+GET		/{<[0-9]+>id}/?								Households.view
+GET		/{<[0-9]+>householdId}/{<[0-9]+>dataId}/?	Households.data
+
+# Application
+GET     /dashboard/?							Application.index
+POST	/parse/{<[0-9]+>id}/?					Application.parseBuildJson
+
+# Forms
+GET		/forms/new/?							Forms.create
+POST	/forms/new/?							Forms.save
+GET		/forms/list/{<[0-9]+>id}/?				Forms.listData
+GET		/forms/data/{<[0-9]+>id}/?				Forms.viewData
+GET     /build/{<[0-9]+>id}/?					Forms.build
+GET		/forms/export/{<[0-9]+>id}/?			Forms.exportData
+
+# Android Interface
+GET     /m/formList/?							Mobile.listAsXml
+*		/m/submission/?							Mobile.submit
+GET     /m/formXml/{<[0-9]+>id}/?				Mobile.viewAsXml
+GET		/m/child_list							Vaccinations.getSchedule
+POST	/m/child_list							Vaccinations.submitVaccination
+GET		/m/vaccinate							Vaccinations.getVaccination
+POST	/m/vaccinate							Vaccinations.submitVaccineFromDue
+GET		/m/session								Vaccinations.getSessions
+GET		/m/mother								Vaccinations.getPostDueMother
+POST    /m/mother								Vaccinations.updatePregnancyResult(format:'json')	
+GET		/m/helper								Vaccinations.getAdvocateList
+POST	/m/helper								Vaccinations.postAdvocateApproval
+POST	/m/edit_data							Children.editData
+GET		/m/edit_data							Children.getChildInfo
+
+
+# Brith SMS
+POST	/child/birth							Vaccinations.birthNotification
+
+GET     /m/login								Users.mLogin(format:'json')
+
+# Users
+GET		/users/?								Users.list
+GET		/users/view/{<[0-9]+>id}/?				Users.details
+POST		/users/view/d							Users.subDistrictOfDistrict
+POST		/users/view/z							Users.subCityOfSubDistrict
+POST		/users/view/w							Users.wardOfSubCity
+POST		/users/view/{<[0-9]+>id}/?				Users.subCityOfSubDistrict
+POST		/users/view/{<[0-9]+>id}/?				Users.wardOfSubCity
+GET		/users/new/?							Users.create
+GET		/users/edit/{<[0-9]+>id}/?				Users.edit
+POST	/users/edit/{<[0-9]+>id}/?				Users.submit
+
+GET		/roles/?								Users.roleList
+GET		/roles/new/?							Users.roleCreate
+POST	/roles/edit/{<[0-9]+>id}/?				Users.roleSubmit
+GET		/roles/edit/{<[0-9]+>id}/?				Users.roleEdit
+GET		/acl/?									Users.acl
+POST	/ajax/permission/?						Users.updatePermission
+
+# Children
+GET		/child/new/?							Children.create
+GET		/child/edit/{<[0-9]+>id}/?				Children.edit
+#POST	/child/submit							Children.submit
+GET		/child/list/?							Children.list
+
+# Pregnant Women
+GET		/pregnantWoman/new/?							PregnantWoman.create
+GET		/pregnantWoman/edit/{<[0-9]+>id}/?				PregnantWoman.edit
+POST	/pregnantWoman/submit							PregnantWoman.submit
+GET		/pregnantWoman/list/?							PregnantWoman.list
+
+# Mobile
+GET		/m/login								Users.mLogin
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+GET     /uploads/                               staticDir:uploads
+
+
+# Catch all
+*       /{controller}/{action}/?                {controller}.{action}

@@ -1,0 +1,51 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Participations' /}
+
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.editExam(exam.id)}">${exam.examCode}</a><span class="divider">/</span></li>
+	<li class="active">Participates</li>
+</ul>
+
+
+<div class="page-header top clearfix">
+    <h1 class="span6">${title}</h1>
+    <div class="span6 mt20">
+    </div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>Submitted At</th>
+			<th>&{'answerPaper.exam.examName'}</th>
+			<th>&{'answerPaper.exam.author'}</th>
+			<th>&{'answerPaper.participate'}</th>
+			<th>&{'answerPaper.status'}</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : answerPaperList, as : 'answerPaper'}
+			<tr>  
+				<td>${answerPaper.submitTime?.format('dd MMMM yyyy , hh:mm:ss a')}</td>
+				<td>${answerPaper.exam.examName}</td>
+				<td>${answerPaper.exam.author}</td>
+				<td>${answerPaper.participate}</td>
+				<td>${answerPaper.status?.name}</td>
+				<td>
+					
+					<a class="btn btn-mini" href="@{Exams.viewParticipateAnswer(answerPaper.id)}"><i class="icon-watch"></i>View</a>
+				
+				</td> 
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="4">No Participates Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>

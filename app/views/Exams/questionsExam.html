@@ -1,0 +1,125 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Question Set' /}
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.editExam(exam.id)}">${exam.examCode}</a><span class="divider">/</span></li>
+	<li class="active">Questions</li>
+</ul>
+
+
+<div class="page-header top clearfix">
+    <h2 class="span6">${title}</h2>
+    <div class="span6 mt20">
+		<a class="btn btn-primary btn-mini " href="@{Exams.addQuestion(exam.id)}"><i class="icon-plus-sign icon-white"></i>New Question</a>
+    	<a class="btn btn-mini " href="@{Exams.previewExam(exam.id)}"><i class="icon-zoom-out "></i>Preview</a>
+    
+    </div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>&{'question.quesTitle'}</th>
+			<th>&{'question.options'}</th>
+			<th>&{'question.quesType'}</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : exam.questionList, as : 'question'}
+			<tr>  
+				<td>${question.quesTitle?.nl2br()}</td>
+				<td>${question.answerOptionList?.join('\n').nl2br()}</td>
+				<td>${question.quesType}</td>
+				
+				<td>
+					<a class="btn btn-mini icon-edit" href="@{Exams.editQuestion(question.id)}"><i class="icon-edit"></i>Edit</a>
+					&nbsp;
+					<a class="btn btn-mini btn-danger icon-remove delete" data-url="@{Exams.deleteQuestion(question.id)}" href="#deleteModal"><i class="icon-remove icon-white"></i> Delete</a>
+				
+				</td> 
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="4">No Question Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>
+
+<script type="text/javascript">
+
+$('#question\\.quesType').on("change", function(){
+	$( "#all-q-option" ).html("");
+});
+
+$('#btn-add-q-option').on("click", function(){
+	var data = "<fieldset class=\"q-option form-inline\"><label>answerOption.optionLabel</label><input type='text' name='options' readonly='' /></fieldset>";
+	var newChkOpt = "<fieldset class=\"q-option form-inline\">"
+					+ "<input name='options' type=\"text\" class=\"input-small\" placeholder=\"Option\"  required>"
+					+ "<input name='optionVals' type=\"number\" class=\"input-small\" placeholder=\"Option value\">"
+					+ "<label class=\"checkbox\">"
+					+ "<input name='isAns' type=\"checkbox\" > is a answer?"
+					+ "</label>"
+					+ "</fieldset>"
+					;
+					
+	var newRdoOpt = "<fieldset class=\"q-option form-inline\">"
+					+ "<input name='options' type=\"text\" class=\"input-small\" placeholder=\"Option\" required />"
+					+ "<input name='optionVals' type=\"number\" class=\"input-small\" placeholder=\"Option value\" />"
+					+ "<label class=\"checkbox\">"
+					+ "<input name='isAns' type=\"radio\" > is a answer?"
+					+ "</label>"
+					+ "</fieldset>"
+					;
+	
+	var newOpt = null;
+	var qtype = $('#question\\.quesType').find(":selected").text();
+	if (qtype.trim() == "radio".trim()){
+		newOpt = newRdoOpt;
+	}else {
+		newOpt = newChkOpt;
+	}			
+					
+	var $lastqoption = $( ".q-option" );				
+	if ($lastqoption.length > 0){
+		$( ".q-option:last" ).append(newOpt);
+	}
+	else {
+		$( "#all-q-option" ).html(newOpt);
+	}
+});
+
+$('#questionForm').on('submit', function(){
+	var this_master = $(this);
+
+    this_master.find('input[type="checkbox"]').each( function () {
+        var checkbox_this = $(this);
+
+        if( checkbox_this.is(":checked") == true ) {
+            checkbox_this.attr('value','1');
+        } else {
+            checkbox_this.prop('checked',true);
+            //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA    
+            checkbox_this.attr('value','0');
+        }
+
+    });
+    
+    this_master.find('input[type="radio"]').each( function () {
+        var checkbox_this = $(this);
+
+        if( checkbox_this.is(":checked") == true ) {
+            var rdoVal = $(this).closest('fieldset').find('input[name="options"]').attr("value");
+        	checkbox_this.attr('value',rdoVal);
+        } else {
+
+        }
+                
+    });
+});
+
+</script>

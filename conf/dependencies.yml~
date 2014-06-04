@@ -1,0 +1,16 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> secure
+    - play -> deadbolt 1.5.4
+    - play -> chronostamp 0.1
+    - myfirstmodule -> html5validation 1.2.2
+    - net.sf.opencsv -> opencsv 2.3
+
+repositories:
+    - nexus:
+        type: local
+        artifact: ${application.path}/../[module]-[revision].zip
+        contains:
+            - myfirstmodule -> *

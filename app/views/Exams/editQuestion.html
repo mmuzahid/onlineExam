@@ -1,0 +1,80 @@
+#{extends 'Exams/tabExam.html'/}
+#{set title:'Exams' /}
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.editExam(exam.id)}">${exam.examCode}</a> <span class="divider">/</span></li>
+    <li class="active"><a href="@{Exams.questionsExam(exam.id)}">Questions</a><span class="divider">/</span></li>
+    <li class="active">#{if question?.id}Edit#{/if}#{else}New#{/else}</li>
+</ul>
+
+
+<legend>#{if question?.id}Edit#{/if}#{else}New#{/else} Question </legend>
+#{if flash.error}
+    #{alert flash.error, type:'error'/}
+#{/if}
+#{elseif flash.success}
+ 	#{alert flash.success, type:'success'/}
+#{/elseif}
+#{form @saveQuestion(), id : 'questionForm', class:'form-horizontal'}
+	<input type="hidden" name="question.exam.id" value = "${exam.id}">
+	#{if question != null}
+	<input type="hidden" name="question.id" value = "${question.id}">
+	#{/if}
+	#{input 'question.quesTitle', type :'textarea' /}
+	#{if question?.id == null}
+	#{input 'question.quesType', type:'select' , items:questionTypes /}
+	#{/if}
+	#{else}
+	<fieldset disabled>
+	#{input 'question.quesType', type:'select' , items:questionTypes /}
+	</fieldset>
+	#{/else}
+	
+	#{submit 'Save Question'/}
+	
+#{/form}
+	#{if question?.id}	
+		<legend>Answer Options </legend>
+		
+		<form action="@{Exams.saveAnswerOption}">
+		<fieldset class="form-inline">
+			#{if answerOption != null}
+			<input name="answerOption.id" type="hidden" value="${answerOption.id}" />	
+			#{/if}
+			<input name="answerOption.question.id" type="hidden" value="${question?.id}" />
+			<input name="answerOption.optionLabel" type="text"  placeholder="Option"  value="${answerOption?.optionLabel}" required />
+			<label class="checkbox">
+			<input name='answerOption.isAnswer' type="checkbox" value="${answerOption?.isAnswer}" #{if answerOption?.isAnswer}checked#{/if} > is a answer?
+			</label>
+			<button type="submit" class="btn btn-primary"> Save Option</button>
+		</fieldset>					
+		</form>	
+		<table class="table table-striped">
+		<thead>
+			<th>Option</th>
+			<th>is A Answer?</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+		#{list items:question?.answerOptionList, as :'option'}
+		<tr>
+			<td>${option.optionLabel}</td>
+			<td><input name='isAns' disabled="disabled" type="checkbox" #{if option.isAnswer}checked#{/if}/></td>
+			<td>
+				<a class="btn btn-mini btn-edit icon-edit" href="@{Exams.editAnswerOption(option.id)}"><i class="icon-edit"></i> Edit</a>
+				&nbsp;
+				<a class="btn btn-mini btn-danger icon-remove delete" data-url="@{Exams.deleteAnswerOption(option.id)}" href="#deleteModal"><i class="icon-remove icon-white"></i> Delete</a>
+			</td>
+		</tr>
+		#{/list}
+		</tbody>
+		</table>
+	#{/if}
+	<div id="all-q-option">
+	</div>
+	
+	
+	*{<a id="btn-add-q-option" class="btn btn-small btn-success">add option</a>}*
+<!-- form end -->

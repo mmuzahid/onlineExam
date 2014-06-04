@@ -1,0 +1,57 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Comment' /}
+
+#{if flash.error}
+    #{alert flash.error, type:'error'/}
+#{/if}
+#{elseif flash.success}
+ 	#{alert flash.success, type:'success'/}
+#{/elseif}
+
+<h2 class="span12">${question.exam.examName} (${question.exam.examCode}) </h2>
+
+<div class="form-inline">
+<p>Question: <strong>${question.quesTitle?.nl2br()}</strong></p>
+<p>Options:		
+		#{list items:question.answerOptionList, as:'option'}
+			<br/>
+			<label class="checkbox">
+				<input disabled="disabled" name="${question.id}" 
+					type="${question.quesType}" value="${option.id}" 
+					#{if option?.isAnswer}checked#{/if} />
+				 ${option.optionLabel}
+			</label>
+		#{/list}	
+</p>
+</div>
+
+<hr />
+#{form @submitComment()}
+	<input type="hidden" name="comment.question.id" value="${question.id}">
+	#{input 'comment.content', type:'textarea' /}
+	<button class="btn btn-primary" type="submit"><i class="icon-comment icon-white"></i>Post Your Comment </button>
+#{/form}
+
+<legend>Comments</legend>
+
+
+<table class="table table-striped">
+
+<tbody>
+#{list items:commentList, as:'comment'}
+<tr>
+	<td class="span8">
+		<p>
+		<strong>${comment.commenter}: </strong>
+		${comment.content?.nl2br()}</p>
+		<div class="muted">
+			${comment.date?.since()} ( ${comment.date?.format('dd MMMM yyyy , hh:mm:ss a')})
+		</div>
+	</td>
+</tr>
+#{/list}
+#{else}
+<tr><td colspan="7">No Comment Found</td></tr>
+#{/else}
+</tbody>
+</table>

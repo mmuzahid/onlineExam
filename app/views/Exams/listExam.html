@@ -1,0 +1,41 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Exams' /}
+
+
+<div class="page-header top clearfix">
+    <h1 class="span6">${title}</h1>
+    <div class="span6 mt20">
+    </div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>&{'exam.examPeriod'}</th>
+			<th>&{'exam.examCode'}</th>
+			<th>&{'exam.examName'}</th>
+			<th>&{'exam.author'}</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : examList, as : 'exam'}
+			<tr>  
+				<td class="span3">${exam.examPeriod}</td>
+				<td class="span1">${exam.examCode}</td>
+				<td class="span3">${exam.examName}</td>
+				<td class="span1">${exam.author}</td>
+				<td class="span3">
+					<a class="btn btn-mini" href="@{Exams.editExam(exam.id)}"><i class="icon-list-alt"></i>Details</a>
+					<a class="btn btn-mini btn-info" href="@{Exams.reportExam(exam.id)}"><i class="icon-tasks icon-white"></i>Status</a>
+					<a class="btn btn-mini btn-danger delete" data-url="@{Exams.deleteExam(exam.id)}" href="#deleteModal"><i class="icon-remove icon-white"></i> Delete</a>
+				</td> 
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="7">No Exam Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>

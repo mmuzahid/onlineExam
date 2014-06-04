@@ -1,0 +1,44 @@
+#{extends 'main.html' /}
+#{set title:'Access Control List' /}
+
+<div class="page-header top">
+	<h1>${title}</h1>
+</div>
+
+<table class="table acl">
+	<thead>
+		<tr>
+			<th></th>
+			#{list items:roles, as:'role'}
+			<th>${role.name}</th>
+			 #{/list}
+		</tr>
+	</thead>
+	<tbody>
+		#{list items:acos, as:'aco'}
+		<tr>
+			<td>${aco.name}</td>
+			#{list items:roles, as:'role'}
+			<td><input data-role="${role.id}" data-aco="${aco.id}" type="checkbox" #{if aco.roles.contains(role)}checked="checked"#{/if} #{if role.id == 1}disabled="disabled"#{/if}></td>
+			#{/list}
+		</tr>
+		#{/list}
+	</tbody>
+</table>
+
+#{set 'moreScripts'}
+<script type="text/javascript">
+$(function(){
+    $('.acl').on('click', 'input[type=checkbox]', function(e){
+        $.ajax('@@{Users.updatePermission()}', {
+        	type: 'POST',
+        	data: {
+        		acoId: $(this).data('aco'),
+        		roleId: $(this).data('role'),
+        		state: $(this).is(':checked')
+        	}
+        });
+    });
+});
+</script>
+#{/set}

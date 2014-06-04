@@ -1,0 +1,59 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Participations' /}
+
+<div class="page-header top clearfix">
+    <h1 class="span6">${title}</h1>
+    <div class="span6 mt20">
+    </div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>Submitted at</th>
+			<th>&{'answerPaper.exam.examName'}</th>
+			<th>&{'answerPaper.exam.author'}</th>
+			<th>Participate</th>
+			<th>&{'answerPaper.status'}</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : answerPaperList, as : 'answerPaper'}
+			<tr>  
+				<td>${answerPaper.submitTime?.format('dd MMMM yyyy , hh:mm:ss a')}</td>
+				<td>
+					
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionParent${answerPaper.id}" href="#collapseOne${answerPaper.id}">
+							${answerPaper.exam.examName} (${answerPaper.exam.examCode})
+					</a>
+					<div id="collapseOne${answerPaper.id}" class="accordion-body collapse ">
+							<div class="accordion-inner">
+								${answerPaper.exam.noticeMessage?.nl2br()}
+							</div>
+					</div>	
+				</td>
+				<td>${answerPaper.exam.author}</td>
+				<td>${answerPaper.participate}</td>
+				<td>${answerPaper.status?.name}</td>
+				<td>
+				#{if answerPaper.status == models.AnswerPaperStatus.ACTIVE}	
+					&nbsp;
+					<a class="#{if answerPaper.exam.status != models.ExamStatus.ACTIVE}disabled#{/if} btn btn-mini icon-play" href="@{Exams.startExam(answerPaper.id)}"><i class="icon-play"></i>Start</a>	
+				#{/if}
+									
+				#{if answerPaper.status == models.AnswerPaperStatus.SUBMITED}	
+				&nbsp;
+				<a class="btn btn-mini icon-list-alt" href="@{Exams.viewAnswerPaper(answerPaper.id)}"><i class="icon-list-alt"></i>Details</a>
+				#{/if}
+						
+				</td> 
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="7">No Participation Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>

@@ -1,0 +1,83 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Exams' /}
+
+<div class="page-header top clearfix">
+    
+    <div class="span9"><h2>${exam.examName} (${exam.examCode}) </h2></div>
+    <div class="span3">
+        <p class="text-error countdown styled"></p>
+    </div>
+    <div class="span12">
+     <strong>Author:</strong> ${exam.author?.name}.<br/>	
+     <strong>Participant:</strong> ${answerPaper.participate}<br />
+    </div>
+    <div class="span12 accordion-group">
+<div class="accordion-heading">
+<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+Instructions/Notice
+</a>
+</div>
+<div id="collapseOne" class="accordion-body collapse ">
+<div class="accordion-inner">
+${exam.noticeMessage?.nl2br()}
+</div>
+</div>
+</div>
+</div>
+
+#{if exam.status == models.ExamStatus.ACTIVE}
+#{set qSerial : 1 /}
+#{form @submitAnswerPaper(),class:'form-inline'}
+<input type="hidden" name="examId" value="${exam.id}" />
+<input type="hidden" name="answerPaperId" value="${answerPaper?.id}" />
+#{list items:questionList, as:'question'}
+<div class="form-inline">
+Q${qSerial++} : ${question.quesTitle?.nl2br()}
+#{list items:question.answerOptionList, as:'option'}
+<br/>
+<label class="checkbox">
+<input name="${question.id}" type="${question.quesType}" value="${option.id}"> ${option.optionLabel}
+</label>
+#{/list}
+<hr/>
+</div>
+#{/list}
+
+#{if answerPaper?.id}
+#{submit 'Submit Test'/}
+#{/if}
+
+#{/form}
+#{/if}
+
+#{set 'moreScripts'}
+#{script 'jquery.countdown.js' /}
+#{/set}
+<script type="text/javascript">
+      $(function() {
+        var endDate = "${exam.endTime?.format('MMMM dd, yyyy hh:mm:ss a')}";//"June 7, 2087 15:03:25";
+
+        $('.countdown.simple').countdown({ date: endDate });
+
+        $('.countdown.styled').countdown({
+          date: endDate,
+          render: function(data) {
+            $(this.el).html("<div>" + this.leadingZeros(data.years, 4) + " <span>years</span></div><div>" + this.leadingZeros(data.days, 3) + " <span>days</span></div><div>" + this.leadingZeros(data.hours, 2) + " <span>hrs</span></div><div>" + this.leadingZeros(data.min, 2) + " <span>min</span></div><div>" + this.leadingZeros(data.sec, 2) + " <span>sec</span></div>");
+          }
+        });
+
+        $('.countdown.callback').countdown({
+          date: +(new Date) + 10000,
+          render: function(data) {
+            $(this.el).text(this.leadingZeros(data.sec, 2) + " sec");
+          },
+          onEnd: function() {
+            $(this.el).addClass('ended');
+          }
+        }).on("click", function() {
+          $(this).removeClass('ended').data('countdown').update(+(new Date) + 10000).start();
+        });
+
+      });
+</script>
+

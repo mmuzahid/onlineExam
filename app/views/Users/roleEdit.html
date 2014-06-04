@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+
+<div class="page-header top">
+#{if role?.id}
+    <h1>Edit Role</h1>
+#{/if}
+#{else}
+    <h1>New Role</h1>
+#{/else}
+</div>
+
+
+#{form @roleSubmit(), class:'form-horizontal'}
+    #{if role?.id}
+    <input type="hidden" name="role.id" value="${role.id}" />
+    #{/if}
+
+    #{input 'role.name' /}
+    #{submit /}
+#{/form}

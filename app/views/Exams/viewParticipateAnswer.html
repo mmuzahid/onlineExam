@@ -1,0 +1,62 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Participations' /}
+
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.editExam(answerPaper.exam.id)}">${answerPaper.exam.examCode}</a><span class="divider">/</span></li>
+	<li><a href="@{Exams.examParticipates(answerPaper.exam.id)}">Participates</a><span class="divider">/</span></li>
+	<li class="active">${answerPaper.id}</li>
+</ul>
+
+
+<div class="page-header top clearfix">
+    <h2 class="span12">${answerPaper.exam.examName} (${answerPaper.exam.examCode}) </h2>
+    <div class="span12">
+		<strong>Author:</strong> ${answerPaper.exam.author}<br />
+		<strong>Participate:</strong> ${answerPaper.participate}<br />
+		<strong>Score:</strong> <span id="score">${answerPaper.numberOfCorrectAnswer}</span> out  of ${userAnswerList.size()}<br />
+		<strong>Submitted at:</strong> ${answerPaper.submitTime?.since()} ( ${answerPaper.submitTime?.format('dd MMMM yyyy , hh:mm:ss a')})<br />	
+	</div>
+	<div class="span12 accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+				Instructions/Notice
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse ">
+				<div class="accordion-inner">
+					${answerPaper.exam.noticeMessage?.nl2br()}
+				</div>
+			</div>
+	</div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>&{'userAnswer.questionTitle'}</th>
+			<th>&{'userAnswer.options'}</th>
+			<th>&{'userAnswer.answer'}</th>
+			<th>&{'userAnswer.correctAnswer'}</th>
+			<th>&{'userAnswer.isCorrect'}</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : userAnswerList, as : 'userAnswer'}
+			<tr>  
+				<td>${userAnswer.questionTitle}</td>
+				<td>${userAnswer.options?.nl2br()}</td>
+				<td>${userAnswer.answer?.nl2br()}</td>
+				<td>${userAnswer.correctAnswer.nl2br()}</td>
+				<td><i class="#{if userAnswer.isCorrect}icon-ok#{/if}#{else}icon-remove#{/else}"></i></td>
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="4">No Answer Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>

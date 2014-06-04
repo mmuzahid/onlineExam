@@ -1,0 +1,23 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+application.name=Application Name
+
+# ACL
+user.login=Login
+user.name=User Name
+user.role.id=Role
+user.role.name=Role
+user.password=Password
+user.confirmPassword=Confirm Password
+role.id=#
+role.name=Role Name
+
+# Form
+form.title=Title
+form.version=Version
+form.xml=XML
+form.json=JSON
+
+# Users

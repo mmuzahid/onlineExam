@@ -1,0 +1,41 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Exams' /}
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.editExam(exam.id)}">${exam.examCode}</a> <span class="divider">/</span></li>
+    <li class="active"><a href="@{Exams.questionsExam(exam.id)}">Questions</a><span class="divider">/</span></li>
+    <li class="active">Preview</li>
+</ul>
+
+
+<div class="page-header top clearfix">
+    <h2 class="span12">${exam.examName} </h2>
+    <div class="span12">
+    	Exam code : ${exam.examCode}<br/>
+		Author : ${exam.author?.name}.<br/>		
+    </div>
+</div>
+
+#{set qSerial : 1 /}
+#{form  @submitAnswerPaper(),class:'form-inline'}
+	<input type="hidden" name="examId" value="${exam.id}" />
+	<input type="hidden" name="answerPaperId" value="${answerPaper?.id}" />
+	#{list items:questionList, as:'question'}
+		<div class="form-inline">
+		Q${qSerial++} : ${question.quesTitle?.nl2br()}
+		#{list items:question.answerOptionList, as:'option'}
+			<br/>
+			<label class="checkbox">
+				<input name="${question.id}" type="${question.quesType}" value="${option.id}"> ${option.optionLabel}
+			</label>
+		#{/list}	
+		<hr/>
+		</div>
+	#{/list}
+	
+	<fieldset disabled>
+	#{save 'Submit Test'/}
+	</fieldset>
+#{/form}

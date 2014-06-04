@@ -1,0 +1,83 @@
+#{extends 'Exams/tabExam.html' /}
+
+<div id="container" style="height: 400px"></div>
+
+#{set 'moreScripts'}
+	#{script 'highcharts.js' /}
+	#{script 'highcharts-3d.js' /}
+	#{script 'exporting.js' /}
+#{/set}
+
+
+<script type="text/javascript">
+var getColor = {
+	    '0': '#FF0000',
+	    '1': '#CCCCB3',
+	    '2': '#F781F3', 
+	    '3': '#FF8000', 
+	    '4': '#FFFF00', 
+	    '5': '#CC2EFA', 
+	    '6': '#0000FF', 
+	    '7': '#EAEC93', 
+	    '8': '#D7FBE6', 
+	    '9': '#FFCACA', 
+	    '10': '#00FF00'
+	};
+
+%{
+	int i = 0;
+}%
+
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'pie',
+            options3d: {
+				enabled: true,
+                alpha: 45,
+                beta: 0
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Status of<strong> ${exam.examName}(${exam.examCode})</strong> <br/>'+ ${exam.totalParticipates}+ ' submissions'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 25,
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                       color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+       			showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Ratio',
+            data: [
+               #{list items : listReportData, as : 'item'}
+                	*{
+                		["${item.key}",   ${item.value}]${item_isLast ?'':',' }
+                	}*
+               
+                	
+                	{name:'${item.key}',   y:${item.value},  color:getColor[${(i++)%11}]}  ${item_isLast ?'':',' }
+                	
+               #{/list}
+               
+            ]
+        }]
+    });
+});
+</script>

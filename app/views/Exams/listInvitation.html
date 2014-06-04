@@ -1,0 +1,79 @@
+#{extends 'Exams/tabExam.html' /}
+<h1>Invitations</h1>
+
+
+<table class="table table-striped">
+<thead>
+	<th>Exam</th>
+	<th>Author</th>
+	<th>Participate Email</th>
+	<th>User</th>
+	<th>Status</th>
+	<th>Actions</th>
+</thead>
+<tbody>
+#{list items:invitationList, as:'invitation'}
+<tr>
+	<td>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionParent${invitation.id}" href="#collapseOne${invitation.id}">
+							${invitation.exam.examName} (${invitation.exam.examCode})
+					</a>
+					<div id="collapseOne${invitation.id}" class="accordion-body collapse ">
+							<div class="accordion-inner">
+								${invitation.exam.noticeMessage?.nl2br()}
+							</div>
+					</div>		
+	
+	</td>
+	<td>${invitation.exam?.author}</td>
+	
+	<td>${invitation.email}</td>
+	<td>${invitation.user}</td>
+	<td>${invitation.status.name}</td>
+	<td>
+		#{if invitation.status == models.InvitationStatus.INVITED}
+		<a class="btn btn-mini btn-primary confirm" data-confmsg="Are you sure you want to accept this?" data-successstatus="${models.InvitationStatus.ACCEPTED.name}" data-failmsg="Sorry , Invitation accept not possible now" data-url="@{Exams.acceptInvitation(invitation.id)}" href="#deleteModal"><i class="icon-ok icon-white"></i> Accept</a>
+		<a class="btn btn-mini btn-danger confirm" data-confmsg="Are you sure you want to refused this?" data-successstatus="${models.InvitationStatus.REFUSED.name}" data-failmsg="Sorry ,Invitaion refused not possible now" data-url="@{Exams.refuseInvitation(invitation.id)}" href="#deleteModal"><i class="icon-remove-circle icon-white"></i> Refuse</a>
+		#{/if}
+	</td>
+</tr>
+#{/list}
+#{else}
+<tr><td colspan=7>No Invitation Available</td></tr>
+#{/else}
+</tbody>
+</table>
+
+<script type="text/javascript">
+
+// confirm 
+$('a.confirm').click(function(e){
+    var that = this;
+    e.preventDefault();
+    bootbox.dialog($(that).data('confmsg'),
+        [{
+            "label": "Cancel"
+        }, {
+            "label": "Confirm",
+            "class": "btn-primary",
+            "callback": function() {
+                $.post($(that).data('url'), function() {
+                    // 
+                }).done(function(username){
+                	/**project specific*/
+                	$(that).parent().prev().html($(that).data('successstatus'));
+                	$(that).parent().prev().prev().html(username);
+                	
+                	$(that).parent().html("");
+                }).fail(function(){
+                	bootbox.alert($(that).data('failmsg'));
+                });
+            }
+        }],
+        {
+            "header": "Confirmation"
+        }
+    );
+});
+
+</script>

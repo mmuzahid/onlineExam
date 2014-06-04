@@ -1,0 +1,69 @@
+#{include 'head.html' /}
+
+<body>
+
+	<div class="container">
+		<div class="login">
+
+			#{form @authenticate(), class:'well'}
+
+			<legend><a href="@{Application.index}">&{'application.name'}</a></legend>
+
+			#{if flash.error}
+			<div class="alert alert-error">&{flash.error}</div>
+			#{/if} 
+			#{if flash.success}
+			<div class="alert alert-info">&{flash.success}</div>
+			#{/if}
+
+			<div class="fields">
+				<div class="control-group">
+					<label class="control-label" for="secure_username">&{'secure.username'}</label>
+					<div class="controls">
+						<input class="input-xlarge" id="secure_username" name="username" type="text" value="${flash.username}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="secure_password">&{'secure.password'}</label>
+					<div class="controls">
+						<input class="input-xlarge" id="secure_password" name="password" type="password" value="">
+						<span class="help-block"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<div class="row">
+					<div class="span1">
+						<input type="submit" class="btn btn-primary" id="signin" value="&{'secure.signin'}" />
+					</div>
+					<div class="span2">
+						<div class="control-group">
+							<div class="controls">
+								<label class="checkbox">
+				                <input accept="" id="remember" name="remember" type="checkbox" value="true" ${flash.remember ? 'checked="true" ' : ''}>&{'secure.remember'}</label>
+								<span class="help-block"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p id="signin-field">
+
+			</p>
+			
+			<div class="sign-up">
+				<a class="btn btn-success btn-sign-up" id="signup" href="@@{Users.signup}" >&{'secure.signup'}</a>
+			</div>
+			
+			#{/form}
+						
+		</div>
+		
+	</div>
+
+</body>
+</html>

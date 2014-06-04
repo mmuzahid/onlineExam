@@ -1,0 +1,77 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="page-header top">
+	<h1>Home Page </h1>
+</div>
+
+             
+<div id="myCarousel" class="carousel slide">
+	<!-- indexing -->
+       <ol class="well  well-small badge-inverse carousel-indicators">
+         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+         <li class="" data-target="#myCarousel" data-slide-to="1"></li>
+         <li class="" data-target="#myCarousel" data-slide-to="2"></li>
+		 <li data-target="#myCarousel" data-slide-to="3" class=""></li>
+       </ol>   
+
+    <!-- Carousel items -->
+    <div class="carousel-inner" >
+    <div class="active item" align="center">
+    	*{<img  src="@{'/public/images/signup.png'}" alt="IMAGE MISSING"  />}*
+       	<img  src="@{'/public/images/home_caro_1.jpg'}" alt="IMAGE MISSING"  />
+        <div class="carousel-caption">
+          <h4>Participate Exam</h4>
+          <p>You can participate exam through Internet</p>
+        </div>
+    </div>
+    <div class="item" align="center">
+    	*{<img  src="@{'/public/images/signup_error.png'}" alt="IMAGE MISSING" />}*
+        <img  src="@{'/public/images/home_caro_2.jpg'}" alt="IMAGE MISSING"  />
+        <div class="carousel-caption">
+          <h4>Get Your Result</h4>
+          <p>Check your answers are right or wrong</p>
+        </div>
+    </div>
+    <div class="item" align="center">
+    	*{<img  src="@{'/public/images/signup_success.png'}" alt="IMAGE MISSING"  />}*
+    	<img  src="@{'/public/images/home_caro_3.jpg'}" alt="IMAGE MISSING"  />
+        <div class="carousel-caption">
+          <h4>Virtual Exam Hall</h4>
+          <p>No physical exam room needed to participate exam.</p>
+        </div>
+    </div>
+    <div class="item" align="center" >
+    	*{<img src="@{'/public/images/signin.png'}" alt="IMAGE MISSING"  />}*
+    	<img  src="@{'/public/images/home_caro_4.jpg'}" alt="IMAGE MISSING"  />
+    	<div class="carousel-caption">
+          <h4>Ask Question</h4>
+          <p>you can ask question about question</p>
+        </div>
+    </div>
+    </div>
+    <!-- Carousel nav -->
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+
+#{set 'moreScripts' }
+ #{script src:'bootstrap-carousel.js' /} 
+#{/set}
+
+<script type="text/javascript">
+$(document).ready(function() {
+   $('.carousel').carousel({
+		    interval: 2500
+	  });  
+   $('.carousel').carousel({
+		    pause: "hover"
+	  });
+  $('.carousel').on('slid', function() {
+    var to_slide = $('.carousel-inner .item.active').attr('id');
+    $('.carousel-indicators').children().removeClass('active');
+    $('.carousel-indicators [data-slide-to=' + to_slide + ']').addClass('active');
+  });
+});
+
+</script>

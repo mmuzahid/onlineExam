@@ -1,0 +1,22 @@
+#DAY
+VaccineWeek(d_0):
+    name:      "Day_0"
+    value:       "0" 
+VaccineWeek(d_42):
+    name:      "Day_42"
+    value:       "42" 
+VaccineWeek(d_70):
+    name:      "Day_70"
+    value:       "70"
+VaccineWeek(d_98):
+    name:      "Day_98"
+    value:       "98"
+VaccineWeek(d_126):
+    name:      "Day_126"
+    value:       "126"  
+VaccineWeek(d_270):
+    name:      "Day_270"
+    value:       "270"         
+VaccineWeek(d_450):
+    name:      "Day_450"
+    value:       "450" 

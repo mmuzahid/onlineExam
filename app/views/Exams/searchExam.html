@@ -1,0 +1,51 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Search Exam to Participate' /}
+
+
+
+<div class="page-header top clearfix">
+    <h1 class="span12">${title}</h1>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>&{'exam.examPeriod'}</th>
+			<th>&{'answerPaper.exam.examName'}</th>
+			<th>&{'exam.author'}</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : searchedExamList, as : 'exam'}
+			<tr>  
+				<td>${exam.examPeriod}</td>
+				<td>
+					
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionParent${exam.id}" href="#collapseOne${exam.id}">
+							${exam.examName} (${exam.examCode})
+					</a>
+					<div id="collapseOne${exam.id}" class="accordion-body collapse ">
+							<div class="accordion-inner">
+								${exam.noticeMessage?.nl2br()}
+							</div>
+					</div>	
+				</td>
+				<td>${exam.author}</td>
+				<td>
+					#{if exam.isValidPeriod()}
+					<a class="btn btn-mini icon-list" href="@{Exams.requestForExam(exam.id)}"><i class="icon-play"></i>Start</a>
+					#{/if}
+					#{else}
+						<a href="#" data-toggle="tooltip" title="Exam Period out of range"><i class="icon  icon-info-sign"></i></a>
+					#{/else}
+				</td> 
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="7">No Exam Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>

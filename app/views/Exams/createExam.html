@@ -1,0 +1,84 @@
+#{extends 'Exams/tabExam.html'/}
+#{set title:'Exam' /}
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li class="active">#{if exam?.id}${exam.examCode}#{/if}#{else}New#{/else}</li>
+</ul>
+
+
+<div class="page-header top clearfix">
+    <h1 class="span6">
+    #{if exam?.id}Edit#{/if}#{else}New#{/else} ${title}</h1>
+    <div class="span6 mt20">
+    		
+    		#{if exam?.id}
+			<div class="btn-group" data-toggle="buttons-checkbox">
+			<a class="btn btn-mini btn-primary" href="@{Exams.questionsExam(exam.id)}"><i class="icon-list icon-white"></i>Questions</a>
+			<a class="btn btn-mini btn-warning" href="@{Exams.examParticipates(exam.id)}"><i class=" icon-pencil icon-white"></i>Participates</a>
+			</div>
+			#{/if}
+    </div>
+</div>
+
+
+#{form @submitExam(), class:'form-horizontal'}
+	#{if exam}
+	<input type="hidden" name="exam.id" value="${exam.id}" />
+	#{/if}
+	#{input 'exam.author.id', type:'select', items:authorList /}
+	#{input 'exam.examCode' /}
+	#{input 'exam.examName' /}
+	<!-- date range picker from : https://github.com/dangrossman/bootstrap-daterangepicker -->
+	#{input 'exam.examPeriod', calendar:'sdf' /}
+	
+	#{input 'exam.noticeMessage', type:'textarea' /}
+	
+	#{input 'exam.questionSetType', type:'select', items:models.ExamQuestionSetType.values(), labelProperty:'name' /}
+	<div id="questionPerExam">
+	#{if exam?.questionSetType == models.ExamQuestionSetType.RANDOM}
+	#{input 'exam.questionPerExam' /}
+	#{/if}
+	</div>
+	
+	#{submit /}
+#{/form}
+
+<!-- date range script & styles -->
+<script type="text/javascript">
+$(document).ready(function() {
+   $('#exam_examPeriod').daterangepicker({
+     timePicker: true,
+     timePickerIncrement: 10,
+     format: 'MM/DD/YYYY h:mm A'
+   }, function(start, end, label) {
+     console.log(start.toISOString(), end.toISOString(), label);
+   });
+});
+</script>
+#{set 'moreStyles'}
+    #{stylesheet 'daterangepicker-bs2.css' /}
+#{/set}
+#{set 'moreScripts'}
+    #{script src:'moment.js' /}
+    #{script src:'daterangepicker.js' /}
+#{/set}
+
+
+<!-- dynamic input container for form -->
+<div class="hidden">
+	<div id="tmpQuestionPerExam">
+	#{input 'exam.questionPerExam' /}
+	</div>	
+</div>
+<script type="text/javascript">
+$('#exam\\.questionSetType').on('change', function() {
+	var inp = "";
+	if ($(this).find(":selected").attr('value') == 'RANDOM'){
+		inp = $('#tmpQuestionPerExam').html();
+	}
+	$('#questionPerExam').html(inp);
+});
+</script>
+

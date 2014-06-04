@@ -1,0 +1,57 @@
+#{extends 'Exams/tabExam.html' /}
+#{set title:'Answer Paper' /}
+
+<div class="page-header top clearfix">
+    <h2 class="span12">${answerPaper.exam.examName} (${answerPaper.exam.examCode}) </h2>
+    <div class="span12">
+		<strong>Author:</strong> ${answerPaper.exam.author}<br />
+		<strong>Participant:</strong> ${answerPaper.participate}<br />
+		<strong>Score: </strong> 
+			${(answerPaper.numberOfCorrectAnswer * 100 / userAnswerList.size()).format('00.00')}%
+			 (<span id="score">${answerPaper.numberOfCorrectAnswer}</span> out  of ${userAnswerList.size()})<br />
+		<strong>Submitted at:</strong> ${answerPaper.submitTime?.since()} ( ${answerPaper.submitTime?.format('dd MMMM yyyy , hh:mm:ss a')})<br />	
+		<strong>Time Elapsed:</strong> ${answerPaper.getTimeElapsed()}<br />	
+	</div>
+	<div class="span10 accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+				Instructions/Notice
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse ">
+				<div class="accordion-inner">
+					${answerPaper.exam.noticeMessage?.nl2br()}
+				</div>
+			</div>
+	</div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>&{'userAnswer.questionTitle'}</th>
+			<th>&{'userAnswer.options'}</th>
+			<th>&{'userAnswer.answer'}</th>
+			<th>&{'userAnswer.correctAnswer'}</th>
+			<th>&{'userAnswer.isCorrect'}</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items : userAnswerList, as : 'userAnswer'}
+			<tr>  
+				<td class="span3">${userAnswer.questionTitle}</td>
+				<td class="span2">${userAnswer.options?.nl2br()}</td>
+				<td class="span2">${userAnswer.answer?.nl2br()}</td>
+				<td class="span2">${userAnswer.correctAnswer.nl2br()}</td>
+				<td class="span1"><i class="#{if userAnswer.isCorrect}icon-ok#{/if}#{else}icon-remove#{/else}"></i></td>
+				<td class="span1"><a class="btn btn-mini icon-comment" target="_blank" href="@{Exams.questionComment(userAnswer.question.id)}"><i class="icon-comment"></i>Comments</a></td>
+			</tr>
+		#{/list}
+		#{else}
+			<tr>
+				<td colspan="4">No Answer Available</td>
+			</tr>
+		#{/else}
+	</tbody>
+</table>

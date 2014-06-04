@@ -1,0 +1,54 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+application.name=Online Examination System
+
+# ACL
+user.login=Username
+user.name= Name
+user.email = Email
+user.role.id=Role
+user.role.name=Role
+user.password=Password
+user.confirmPassword=Confirm Password
+role.id=#
+role.name=Role Name
+# Users
+
+#secure
+secure.signup = Sign up
+
+##### Exam #######
+exam.author.id = Author
+exam.examName = Title
+exam.examCode = Code
+exam.questionType = Question Set Type
+exam.questionPerExam
+exam.questionPerExam = Question Per Exam
+exam.questionSetType = Question Set Type
+exam.visibility = Visibility
+exam.durationType = Duration Type
+exam.status = Status
+exam.author = Author
+exam.examPeriod = Exam Period
+exam.noticeMessage = Instructions / Notice
+question.quesId = Code
+question.quesTitle = Title
+question.quesType = Type
+question.options = Options
+emailList = 
+#### Answer Paper ####
+userAnswer.questionTitle = Question Title
+userAnswer.options = Options 	
+userAnswer.correctAnswer = Correct Answer	
+userAnswer.answer = Participate Answer
+userAnswer.isCorrect = Result
+answerPaper.date = Date
+answerPaper.exam.examName = Exam Name
+answerPaper.exam.author = Author
+answerPaper.participate = Participate
+answerPaper.status = Status
+
+#Comment
+comment.content=

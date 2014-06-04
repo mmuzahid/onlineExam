@@ -1,0 +1,52 @@
+#{include 'head.html' /}
+
+<body>
+
+	<div class="container">
+		<div class="login">
+
+			#{form @register(), class:'well'}
+
+			<legend><a href="@{Application.index}">&{'application.name'}</a></legend>
+
+			#{if flash.error}
+			<div class="alert alert-error">&{flash.error}</div>
+			#{/if} #{if flash.success}
+			<div class="alert alert-info">&{flash.success}</div>
+			#{/if}
+
+			<div class="fields">
+				
+				#{if user?.id}
+			    <input type="hidden" name="user.id" value="${user.id}" />
+			    #{/if}
+			
+				#{input 'user.name' /}
+			    #{input 'user.email' /}
+			    #{input 'user.login' /}
+			    #{input 'user.password', type:'password' /}
+			    #{input 'user.confirmPassword', type:'password' /}
+			    <div class="hidden">
+			    #{input 'user.role.id', type:'select', items:signupRoles, labelProperty:'name' /}
+			    </div>
+			</div>
+
+			<div class="form-actions">
+				<div class="row">
+					<div class="span2">
+						<input type="submit" class="btn btn-success" value="Create User" />
+					</div>
+					<div class="span1">
+						<a class="btn" href="@@{Application.index}">Back</a>
+					</div>
+				</div>
+			</div>
+			
+			#{/form}
+						
+		</div>
+		
+	</div>
+
+</body>
+</html>

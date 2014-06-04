@@ -1,0 +1,105 @@
+#{extends 'Exams/tabExam.html'/}
+#{set title:'Exam' /}
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="@{Exams.listExam}">Exams</a> <span class="divider">/</span></li>
+    <li class="active"><a href="@{Exams.editExam(exam.id)}">${exam.examCode}</a><span class="divider">/</span></li>
+    <li class="active">Settings</li>
+</ul>
+
+<div class="page-header top clearfix">
+    <h1 class="span6">Settings ${title}</h1>
+    <div class="span6 mt20">
+    </div>
+</div>
+
+
+#{form @submitExamSettings(), class:'form-horizontal', id : 'settExm'}
+	#{if exam}
+	<input type="hidden" name="exam.id" value="${exam.id}" />
+	#{/if}
+	#{input 'exam.author.id', type:'select', items:authorList /}
+	#{input 'exam.questionSetType', type:'select', items:models.ExamQuestionSetType.values(), labelProperty:'name' /}
+	<div id="questionPerExam">
+	#{if exam.questionSetType == models.ExamQuestionSetType.RANDOM}
+	#{input 'exam.questionPerExam' /}
+	#{/if}
+	</div>
+	*{
+	#{input 'exam.visibility', type:'select', items:models.ExamVisibility.values(), labelProperty:'name' /}
+	}*
+	#{input 'exam.durationType', type:'select', items:models.ExamDurationType.values(), labelProperty:'name' /}
+	#{input 'exam.status', type:'select', items:models.ExamStatus.values(), labelProperty:'name' /}	
+	
+	<fieldset>
+        <div class="control-group">
+          <label class="control-label" for="reservationtime">Choose your check-in and check-out times:</label>
+          <div class="controls">
+           <div class="input-prepend input-group">
+             <span class="add-on input-group-addon"><i class="icon-plus"></i></span>
+             <input style="width: 200px" name="reservation" id="reservationtime" class="form-control" value="08/01/2013 1:00 PM - 08/01/2013 1:30 PM" type="text">
+           </div>
+          </div>
+        </div>
+      </fieldset>
+
+
+	#{submit /}
+#{/form}
+
+<!-- container -->
+<div class="hidden">
+	<div id="tmpQuestionPerExam">
+	#{input 'exam.questionPerExam' /}
+	</div>	
+</div>
+
+
+
+
+
+               <script type="text/javascript">
+               $(document).ready(function() {
+                  $('#reservationtime').daterangepicker({
+                    timePicker: true,
+                    timePickerIncrement: 10,
+                    format: 'MM/DD/YYYY h:mm A'
+                  }, function(start, end, label) {
+                    console.log(start.toISOString(), end.toISOString(), label);
+                  });
+               });
+               </script>
+
+            
+
+
+
+
+<!-- TODO FIX -->
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+ -->
+<!-- 
+<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+      --> 
+
+
+#{set 'moreStyles'}
+	    #{stylesheet 'daterangepicker-bs3.css' /}
+#{/set}
+
+#{set 'moreScripts'}
+    #{script src:'moment.js' /}
+    #{script src:'daterangepicker.js' /}
+#{/set}
+
+<script type="text/javascript">
+$('#exam\\.questionSetType').on('change', function() {
+	var inp = $('#tmpQuestionPerExam').html();
+	$('#questionPerExam').html(inp);
+	bootbox.alert(inp);
+});
+</script>
+
+
+
