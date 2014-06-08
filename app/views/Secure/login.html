@@ -1,13 +1,14 @@
-#{include 'head.html' /}
-
+*{#{include 'head.html' /}
+}*
+#{extends 'main.html' /}
 <body>
 
-	<div class="container">
+	<div class="span12">
 		<div class="login">
 
 			#{form @authenticate(), class:'well'}
 
-			<legend><a href="@{Application.index}">&{'application.name'}</a></legend>
+			<legend>Login</legend>
 
 			#{if flash.error}
 			<div class="alert alert-error">&{flash.error}</div>
@@ -35,11 +36,11 @@
 			</div>
 
 			<div class="form-actions">
-				<div class="row">
-					<div class="span1">
+				<div class="span12 row">
+					<div class="span4">
 						<input type="submit" class="btn btn-primary" id="signin" value="&{'secure.signin'}" />
 					</div>
-					<div class="span2">
+					<div class="span6">
 						<div class="control-group">
 							<div class="controls">
 								<label class="checkbox">

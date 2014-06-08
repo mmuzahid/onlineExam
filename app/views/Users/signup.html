@@ -1,13 +1,14 @@
-#{include 'head.html' /}
-
+*{#{include 'head.html' /}
+}*
+#{extends 'main.html' /}
 <body>
 
-	<div class="container">
+	<div class="span12">
 		<div class="login">
 
 			#{form @register(), class:'well'}
 
-			<legend><a href="@{Application.index}">&{'application.name'}</a></legend>
+			<legend>SignUp</a></legend>
 
 			#{if flash.error}
 			<div class="alert alert-error">&{flash.error}</div>
@@ -32,12 +33,9 @@
 			</div>
 
 			<div class="form-actions">
-				<div class="row">
-					<div class="span2">
+				<div class="row span12">
+					<div class="span6">
 						<input type="submit" class="btn btn-success" value="Create User" />
-					</div>
-					<div class="span1">
-						<a class="btn" href="@@{Application.index}">Back</a>
 					</div>
 				</div>
 			</div>
