@@ -13,7 +13,8 @@
             <ul class="nav">
               	<li class=#{if request.action == 'Application.index'}"active"#{/if}
               		#{else}""#{/else}><a href="@{Application.index}">Home</a></li>
-	        	<li><a href="#about">About</a></li>
+	        	<li class=#{if request.action == 'Application.about'}"active"#{/if}
+              		#{else}""#{/else}><a href="@{Application.about}">About</a></li>
             </ul>
                 
         	#{if currentUser}

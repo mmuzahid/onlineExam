@@ -45,8 +45,11 @@ public class Application extends Controller {
 	//@ExternalRestrictions("Home")
     @Unrestricted
 	public static void index() {
-    	Play.configuration.getProperty("aggregate.googleApiKey");
-    	
+    	render();
+    }
+    
+    @Unrestricted
+	public static void about() {
     	render();
     }
 
