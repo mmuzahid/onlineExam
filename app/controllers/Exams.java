@@ -1,5 +1,6 @@
 package controllers;
 
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.mail.EmailException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -30,12 +32,16 @@ import models.User;
 import models.UserAnswer;
 import play.Logger;
 import play.data.validation.Valid;
+import play.libs.Crypto;
+import play.libs.Crypto.HashType;
 import play.mvc.With;
 import play.mvc.results.RenderText;
 import utils.ExtraUtils;
+import utils.MailSender;
 import utils.ReportData;
 import controllers.deadbolt.Deadbolt;
 import controllers.deadbolt.ExternalRestrictions;
+import controllers.deadbolt.Unrestricted;
 
 /**
  * Exams Controller -	Exams controller of the web application
@@ -180,9 +186,13 @@ public class Exams extends Controller{
 	
 	@ExternalRestrictions("Edit Exam")
 	public static void deleteExam(long id) {
-		
 		Exam exam = Exam.findById(id);
 		notFoundIfNull(exam);
+		
+		if (AnswerPaper.count("exam = ?", exam) > 0) {
+			error("Dependencies Exists, Used by another Entity.");
+		}
+		
 		exam.delete();
 		ok();
 	}
@@ -290,6 +300,10 @@ public class Exams extends Controller{
 		notFoundIfNull(question);
 		if (question.exam.questionSetType == ExamQuestionSetType.RANDOM && question.exam.questionPerExam >= question.exam.questionList.size()) {
 			error("Too Few Question Set for Random Exam");
+		}
+		
+		if (UserAnswer.count("question = ?", question) > 0) {
+			error("Dependencies Exists, Used by another Entity.");
 		}
 		
 		question.delete();
@@ -555,6 +569,6 @@ public class Exams extends Controller{
 		
 		render(exam, listReportData);
 
-	}
-	
+	}	
+
 }
