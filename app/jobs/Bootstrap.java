@@ -47,7 +47,7 @@ public class Bootstrap extends Job {
 	private void setAccessForSystemUser() {
 		//set access for system user role
 		Role sysRole = Role.findById(2L);
-		String[] acoNames = {"Home", "Edit Exam"};
+		String[] acoNames = {"Edit Exam", "Edit Profile"};
 		for (String acoName : acoNames) {
 			Aco aco = Aco.findByName(acoName);
 			if(aco != null) {
