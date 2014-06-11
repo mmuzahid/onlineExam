@@ -72,6 +72,9 @@ public class User extends Model implements RoleHolder {
     @ManyToOne
     public Role role;
 
+    //reset password request link
+	public String passwordResetId;
+
     /**
      * @param email
      * @param password
