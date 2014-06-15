@@ -71,7 +71,7 @@ public class Bootstrap extends Job {
 	}
 
 	private void loadInitialData() {
-		if(User.count() == 0) {
+		if(tblUser.count() == 0) {
 			Fixtures.loadModels("initial-data.yml");
 		}
 	}

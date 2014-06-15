@@ -3,7 +3,7 @@ package controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.User;
+import models.tblUser;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -42,7 +42,7 @@ public class DigestRequest {
 	}
 
 	public boolean isAuthorized() {
-		User user = User.findByLogin(params.get("username"));
+		tblUser user = tblUser.findByLogin(params.get("username"));
 		if (user == null) {
 			throw new UnauthorizedDigest(params.get("realm"));
 		}

@@ -2,7 +2,7 @@
 	<ul class="nav nav-list">
 		#{if currentUser?.name}
 		<!-- Users Menu -->
-			#{deadbolt.externalizedRestriction externalRestrictions:['View User', 'Edit User', 'Edit Exam']}
+			#{deadbolt.externalizedRestriction externalRestrictions:['View User', 'Edit tblUser', 'Edit Exam']}
 				
 				<li class="nav-header">Menu</li>
 				
@@ -20,7 +20,7 @@
 				
 				#{/deadbolt.externalizedRestriction}
 				
-				#{deadbolt.externalizedRestriction externalRestrictions:['Edit User']}
+				#{deadbolt.externalizedRestriction externalRestrictions:['Edit tblUser']}
 				<li#{if 'Users.create' == request.action} class="active"#{/if}><a href="@{Users.create()}"><i class="icon-plus"></i> New User</a></li>
 				*{
 				<li#{if 'Users.roleList' == request.action || 'Users.roleEdit' == request.action} class="active"#{/if}><a href="@{Users.roleList()}"><i class="icon-list"></i> Roles</a></li>

@@ -32,7 +32,7 @@ public class AnswerPaper extends Model{
 	
 	@Required
 	@ManyToOne
-	public User participate;//user who participates
+	public tblUser participate;//user who participates
 	
 	@Required
 	@Email
@@ -58,7 +58,7 @@ public class AnswerPaper extends Model{
 	
 	public int numberOfCorrectAnswer;
 	
-	public AnswerPaper(Exam exam, User participate) {
+	public AnswerPaper(Exam exam, tblUser participate) {
 		this.exam = exam;
 		this.participate = participate;
 		this.date = new DateTime().toDate();
@@ -71,7 +71,7 @@ public class AnswerPaper extends Model{
 	
 	public AnswerPaper(Exam exam, String email) {
 		this.exam = exam;
-		this.participate = User.findByEmail(email);
+		this.participate = tblUser.findByEmail(email);
 		this.date = new DateTime().toDate();
 		this.startTime = new DateTime().toDate();
 		this.status = AnswerPaperStatus.ACTIVE;

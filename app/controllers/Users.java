@@ -18,7 +18,7 @@ import models.Aco;
 
 
 import models.Role;
-import models.User;
+import models.tblUser;
 import play.Logger;
 import play.Play;
 import play.data.validation.Required;
@@ -38,7 +38,7 @@ public class Users extends Controller {
 
 	@ExternalRestrictions("View User")
 	public static void list() {
-		List<User> users = User.find("id <> 1").fetch();
+		List<tblUser> users = tblUser.find("id <> 1").fetch();
 		render(users);
 	}
 	
@@ -49,7 +49,7 @@ public class Users extends Controller {
 		render(signupRoles);
 	}
 	@Unrestricted
-	public static void register(@Valid User user) {
+	public static void register(@Valid tblUser user) {
 		if (validation.hasErrors()) {
 			List<Role> signupRoles = Role.find("id <> 1").fetch();
 			render("@signup", user, signupRoles);
@@ -69,15 +69,15 @@ public class Users extends Controller {
 		}
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void create() {
 		List<Role> roles = Role.findAll();
 		render("@edit", roles);
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void edit(Long id) {
-		User user = User.findById(id);
+		tblUser user = tblUser.findById(id);
 		notFoundIfNull(user, "user not found");
 		user.password = null;
 		List<Role> roles = Role.findAll();
@@ -86,7 +86,7 @@ public class Users extends Controller {
 
 	@ExternalRestrictions("Edit Profile")
 	public static void profile() {
-		User user = User.findByLogin(Security.connected());
+		tblUser user = tblUser.findByLogin(Security.connected());
 		notFoundIfNull(user, "user not found");
 		user.password = null;
 		List<Role> roles = Role.findAll();
@@ -95,7 +95,7 @@ public class Users extends Controller {
 	
 
 	@ExternalRestrictions("Edit Profile")
-	public static void submitProfile(@Valid User user) {
+	public static void submitProfile(@Valid tblUser user) {
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
 			render("@profile", user, roles);
@@ -105,8 +105,8 @@ public class Users extends Controller {
 		profile();
 	}
 	
-	@ExternalRestrictions("Edit User")
-	public static void submit(@Valid User user) {
+	@ExternalRestrictions("Edit tblUser")
+	public static void submit(@Valid tblUser user) {
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
 			render("@edit", user, roles);
@@ -116,11 +116,11 @@ public class Users extends Controller {
 		list();
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void delete(Long id) {
 		if (request.isAjax()) {
 			notFoundIfNull(id, "id not provided");
-			User user = User.findById(id);
+			tblUser user = tblUser.findById(id);
 			notFoundIfNull(user, "user not found");
 			String userName = user.login;
 			user.delete();
@@ -131,25 +131,25 @@ public class Users extends Controller {
 
 	
 	/* Roles */
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void roleList() {
 		List<Role> roles = Role.find("id <> 1").fetch();
 		render(roles);
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void roleCreate() {
 		render("@roleEdit");
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void roleEdit(Long id) {
 		Role role = Role.findById(id);
 		notFoundIfNull(role, "user not found");
 		render(role);
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void roleSubmit(@Valid Role role) {
 		if (validation.hasErrors()) {
 			render("@roleEdit", role);
@@ -158,7 +158,7 @@ public class Users extends Controller {
 		roleList();
 	}
 
-	@ExternalRestrictions("Edit User")
+	@ExternalRestrictions("Edit tblUser")
 	public static void roleDelete(Long id) {
 		if (request.isAjax()) {
 			notFoundIfNull(id, "id not provided");
@@ -207,14 +207,14 @@ public class Users extends Controller {
 	
 	@Unrestricted
 	public static void resetPasswordRequest(String userId) {
-		User user = null;
+		tblUser user = null;
 		String passwordResetId = null;
 	
 		if (validation.email(userId).ok) {
-			user = User.findByEmail(userId);
+			user = tblUser.findByEmail(userId);
 		}
 		else {
-			user = User.findByLogin(userId);
+			user = tblUser.findByLogin(userId);
 		}
 	
 		
@@ -258,7 +258,7 @@ public class Users extends Controller {
 		String newPassword = request.params.get("user.password");
 		String confirmPassword = request.params.get("user.confirmPassword");
 	
-		User user = User.findByEmail(email);
+		tblUser user = tblUser.findByEmail(email);
 		
 		if (user == null) {
 			flash.error("User not found");

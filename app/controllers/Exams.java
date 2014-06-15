@@ -28,7 +28,7 @@ import models.ExamStatus;
 import models.ExamVisibility;
 import models.Question;
 import models.Role;
-import models.User;
+import models.tblUser;
 import models.UserAnswer;
 import play.Logger;
 import play.data.validation.Valid;
@@ -51,11 +51,11 @@ public class Exams extends Controller{
 
 	@ExternalRestrictions("Edit Exam")
 	public static void createExam() {
-		List<User> authorList = new ArrayList<User>();
-		User currentUser = User.findByLogin(Security.connected());
+		List<tblUser> authorList = new ArrayList<tblUser>();
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		
 		if (Role.isAdmin(currentUser.role)){
-			authorList = User.findAll();			
+			authorList = tblUser.findAll();			
 		}
 		else {
 			authorList.add(currentUser);
@@ -68,11 +68,11 @@ public class Exams extends Controller{
 	public static void editExam(long id) {
 		Exam exam = Exam.findById(id);
 		notFoundIfNull(exam);
-		List<User> authorList = new ArrayList<User>();
-		User currentUser = User.findByLogin(Security.connected());
+		List<tblUser> authorList = new ArrayList<tblUser>();
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		
 		if (Role.isAdmin(currentUser.role)){
-			authorList = User.findAll();			
+			authorList = tblUser.findAll();			
 		}
 		else {
 			if (exam.author != currentUser) {
@@ -101,10 +101,10 @@ public class Exams extends Controller{
 		}
 		
 		if (validation.hasErrors()) {
-			List<User> authorList = new ArrayList<User>();
-			User currentUser = User.findByLogin(Security.connected());
+			List<tblUser> authorList = new ArrayList<tblUser>();
+			tblUser currentUser = tblUser.findByLogin(Security.connected());
 			if (Role.isAdmin(currentUser.role)){
-				authorList = User.findAll();			
+				authorList = tblUser.findAll();			
 			}
 			else {
 				authorList.add(currentUser);
@@ -115,11 +115,11 @@ public class Exams extends Controller{
 		if (exam.questionSetType == ExamQuestionSetType.RANDOM  && exam.questionList.size() < exam.questionPerExam) {
 			int qSetSize=exam.questionList.size();
 			validation.min(qSetSize, exam.questionPerExam).key("exam.questionPerExam").message("Question Per Exam must be less than or equal "+qSetSize);
-			List<User> authorList = new ArrayList<User>();
-			User currentUser = User.findByLogin(Security.connected());
+			List<tblUser> authorList = new ArrayList<tblUser>();
+			tblUser currentUser = tblUser.findByLogin(Security.connected());
 			
 			if (Role.isAdmin(currentUser.role)){
-				authorList = User.findAll();			
+				authorList = tblUser.findAll();			
 			}
 			else {
 				authorList.add(currentUser);
@@ -144,11 +144,11 @@ public class Exams extends Controller{
 			
 		}
 		catch(PersistenceException pe){
-			List<User> authorList = new ArrayList<User>();
-			User currentUser = User.findByLogin(Security.connected());
+			List<tblUser> authorList = new ArrayList<tblUser>();
+			tblUser currentUser = tblUser.findByLogin(Security.connected());
 			
 			if (Role.isAdmin(currentUser.role)){
-				authorList = User.findAll();			
+				authorList = tblUser.findAll();			
 			}
 			else {
 				authorList.add(currentUser);
@@ -165,7 +165,7 @@ public class Exams extends Controller{
 	public static void listExam() {
 		List<Exam> examList = new ArrayList<Exam>();
 		
-		User currentUser = User.findByLogin(Security.connected());
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			examList = Exam.findByAuthor(currentUser);
 		}
@@ -329,7 +329,7 @@ public class Exams extends Controller{
 		notFoundIfNull(answerPaper);
 		Exam exam = answerPaper.exam;
 		List<Question> questionList = new ArrayList<Question>();
-		User participate =  User.findByLogin(Security.connected());
+		tblUser participate =  tblUser.findByLogin(Security.connected());
 
 		if (participate != answerPaper.participate) {
 			error(401,"Unauthorized Access");
@@ -433,7 +433,7 @@ public class Exams extends Controller{
 		
 		List<AnswerPaper> answerPaperList = new ArrayList<AnswerPaper>();
 		
-		User currentUser = User.findByLogin(Security.connected());
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		if (Role.isAdmin(currentUser.role)){
 			answerPaperList = AnswerPaper.find("ORDER BY id DESC").fetch();		
 		}
@@ -450,7 +450,7 @@ public class Exams extends Controller{
 		AnswerPaper answerPaper = AnswerPaper.findById(id);
 		notFoundIfNull(answerPaper);
 		
-		User currentUser = User.findByLogin(Security.connected());
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			if (currentUser != answerPaper.participate)	{
 				error(401,"Unauthorized Access");
@@ -469,7 +469,7 @@ public class Exams extends Controller{
 		AnswerPaper answerPaper = AnswerPaper.findById(id);
 		notFoundIfNull(answerPaper);
 		
-		User currentUser = User.findByLogin(Security.connected());
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			if (currentUser != answerPaper.exam.author)	{
 				error(401,"Unauthorized Access");
@@ -488,7 +488,7 @@ public class Exams extends Controller{
 		Exam exam = Exam.findById(id);
 		notFoundIfNull(exam);
 		
-		User currentUser = User.findByLogin(Security.connected());
+		tblUser currentUser = tblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			if (currentUser != exam.author)	{
 				error(401,"Unauthorized Access");
@@ -525,7 +525,7 @@ public class Exams extends Controller{
 
 		}
 
-		User participate = User.findByLogin(Security.connected());
+		tblUser participate = tblUser.findByLogin(Security.connected());
 
 		if (exam.visibility == ExamVisibility.PUBLIC) {
 			AnswerPaper answerPaper = new AnswerPaper(exam, participate).save();
@@ -545,7 +545,7 @@ public class Exams extends Controller{
 	
 	@ExternalRestrictions("Edit Exam")
 	public static void submitComment(Comment comment) {
-		comment.commenter = User.findByLogin(Security.connected());	
+		comment.commenter = tblUser.findByLogin(Security.connected());	
 		
 		validation.valid(comment);
 		

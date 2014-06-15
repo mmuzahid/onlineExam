@@ -70,10 +70,10 @@ public class Exam extends Model {
 	public int questionPerExam;// for 'questionSetType = ExamQuestionSetType.RANDOM'
 	
 	@ManyToOne
-	public User author;// author of exam
+	public tblUser author;// author of exam
 	
 	@ManyToMany
-	public List<User> participateList;// list of participates - currently useless
+	public List<tblUser> participateList;// list of participates - currently useless
 	
 	@OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
 	public List<Question> questionList = new ArrayList<Question>();//question set
@@ -89,7 +89,7 @@ public class Exam extends Model {
 		}
 		else return this.examPeriod;
 	}
-	public static List<Exam> findByAuthor(User currentUser) {
+	public static List<Exam> findByAuthor(tblUser currentUser) {
 		return Exam.find("author = ?", currentUser).fetch();
 	}
 

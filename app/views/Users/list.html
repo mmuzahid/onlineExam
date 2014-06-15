@@ -32,7 +32,7 @@
 			<td>${user.name}</td>
 			<td>${user.role?.name}</td>
 			<td class="buttons">
-				#{deadbolt.externalizedRestriction externalRestrictions:['Edit User']}
+				#{deadbolt.externalizedRestriction externalRestrictions:['Edit tblUser']}
 				<a class="btn btn-mini" href="@{Users.edit(user.id)}"><i class="icon-edit"></i> Edit</a>
 				<a class="btn btn-mini confirm btn-danger delete" data-url="@{Users.delete(user.id)}" href="#deleteModal"><i class="icon-remove icon-white"></i> Delete</a>
 				#{/deadbolt.externalizedRestriction}
