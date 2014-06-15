@@ -1,4 +1,4 @@
-#{if currentUser}
+#{if currenttblUser}
 #{extends 'main.html' /}
 #{/if}
 #{else}
@@ -6,7 +6,7 @@
 #{/else}
 
 <div class="page-header top">
-#{if user?.id}
+#{if tblUser?.id}
     <h1>Edit User</h1>
 #{/if}
 #{else}
@@ -16,23 +16,23 @@
 
 #{form @submit(), class:'form-horizontal', id:'register-form'}
 
-	#{if user?.id}
-    <input type="hidden" name="user.id" value="${user.id}" />
+	#{if tblUser?.id}
+    <input type="hidden" name="tblUser.id" value="${tblUser.id}" />
     #{/if}
 
-	#{input 'user.name' /}
-    #{input 'user.email' /}
-    #{input 'user.login' /}
-    #{input 'user.password', type:'password' /}
-    #{input 'user.confirmPassword', type:'password' /}
+	#{input 'tblUser.name' /}
+    #{input 'tblUser.email' /}
+    #{input 'tblUser.login' /}
+    #{input 'tblUser.password', type:'password' /}
+    #{input 'tblUser.confirmPassword', type:'password' /}
 
-    #{if currentUser != null && !currentUser.equals("") && currentUser != user}
-    #{input 'user.role.id', type:'select', items:roles, labelProperty:'name' /}
+    #{if currentUser != null && !currentUser.equals("") && currentUser != tblUser}
+    #{input 'tblUser.role.id', type:'select', items:roles, labelProperty:'name' /}
     #{submit /}
     #{/if}
     #{else}
     <div class="hidden">
-    #{input 'user.role.id', type:'select', items:signupRoles, labelProperty:'name' /}
+    #{input 'tblUser.role.id', type:'select', items:signupRoles, labelProperty:'name' /}
     </div>
     <button class="btn btn-primary" onclick="javascript:register()"> Save User </button>
     #{/else}

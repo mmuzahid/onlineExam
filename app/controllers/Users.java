@@ -52,15 +52,15 @@ public class Users extends Controller {
 	public static void register(@Valid tblUser user) {
 		if (validation.hasErrors()) {
 			List<Role> signupRoles = Role.find("id <> 1").fetch();
-			render("@signup", user, signupRoles);
+			render("@signup", tblUser, signupRoles);
 		}
 		
-		if (Role.isAdmin(user.role)) {
+		if (Role.isAdmin(tblUser.role)) {
 			error(401, "Unauthorized Access");
 		}
 		
-		user.save();
-		flash.success("Hi, " + user.name + " , Please signin by your username and password");
+		tblUser.save();
+		flash.success("Hi, " + tblUser.name + " , Please signin by your username and password");
 		try {
 			Secure.login();
 		} catch (Throwable e) {
@@ -77,41 +77,41 @@ public class Users extends Controller {
 
 	@ExternalRestrictions("Edit tblUser")
 	public static void edit(Long id) {
-		tblUser user = tblUser.findById(id);
-		notFoundIfNull(user, "user not found");
-		user.password = null;
+		tblUser tblUser = tblUser.findById(id);
+		notFoundIfNull(tblUser, "user not found");
+		tblUser.password = null;
 		List<Role> roles = Role.findAll();
-		render(user, roles);
+		render(tblUser, roles);
 	}
 
 	@ExternalRestrictions("Edit Profile")
 	public static void profile() {
-		tblUser user = tblUser.findByLogin(Security.connected());
-		notFoundIfNull(user, "user not found");
-		user.password = null;
+		tblUser tblUser = tblUser.findByLogin(Security.connected());
+		notFoundIfNull(tblUser, "user not found");
+		tblUser.password = null;
 		List<Role> roles = Role.findAll();
-		render(user, roles);
+		render(tblUser, roles);
 	}
 	
 
 	@ExternalRestrictions("Edit Profile")
-	public static void submitProfile(@Valid tblUser user) {
+	public static void submitProfile(@Valid tblUser tblUser) {
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
-			render("@profile", user, roles);
+			render("@profile", tblUser, roles);
 		}
-		user.save();
+		tblUser.save();
 		flash.success("Profile Saved Successfully.");
 		profile();
 	}
 	
 	@ExternalRestrictions("Edit tblUser")
-	public static void submit(@Valid tblUser user) {
+	public static void submit(@Valid tblUser tblUser) {
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
-			render("@edit", user, roles);
+			render("@edit", tblUser, roles);
 		}
-		user.save();
+		tblUser.save();
 		flash.success("User Saved Successfully.");
 		list();
 	}
@@ -122,10 +122,10 @@ public class Users extends Controller {
 			notFoundIfNull(id, "id not provided");
 			tblUser user = tblUser.findById(id);
 			notFoundIfNull(user, "user not found");
-			String userName = user.login;
+			String tblUserName = user.login;
 			user.delete();
 			response.status=200;
-			renderText("Username '"  + userName + "'");
+			renderText("Username '"  + tblUserName + "'");
 		}
 	}
 
