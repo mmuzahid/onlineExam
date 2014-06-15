@@ -5,13 +5,13 @@
 application.name=Online Examination System
 
 # ACL
-user.login=Username
-user.name= Name
-user.email = Email
-user.role.id=Role
-user.role.name=Role
-user.password=Password
-user.confirmPassword=Confirm Password
+tblUser.login=Username
+tblUser.name= Name
+tblUser.email = Email
+tblUser.role.id=Role
+tblUser.role.name=Role
+tblUser.password=Password
+tblUser.confirmPassword=Confirm Password
 role.id=#
 role.name=Role Name
 # Users
