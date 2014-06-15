@@ -36,7 +36,7 @@ import controllers.deadbolt.Unrestricted;
 @With(Deadbolt.class)
 public class Users extends Controller {
 
-	@ExternalRestrictions("View User")
+	@ExternalRestrictions("View tblUser")
 	public static void list() {
 		List<tblUser> users = tblUser.find("id <> 1").fetch();
 		render(users);
