@@ -23,7 +23,7 @@ public class Comment extends Model{
 	
 	@Required(message="Commneter missing")
 	@ManyToOne
-	public tblUser commenter;
+	public TblUser commenter;
 	
 	@Required(message="Content Missing")
 	@Column(columnDefinition="varchar(1023)")

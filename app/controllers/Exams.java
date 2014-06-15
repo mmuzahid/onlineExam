@@ -28,7 +28,7 @@ import models.ExamStatus;
 import models.ExamVisibility;
 import models.Question;
 import models.Role;
-import models.tblUser;
+import models.TblUser;
 import models.UserAnswer;
 import play.Logger;
 import play.data.validation.Valid;
@@ -51,11 +51,11 @@ public class Exams extends Controller{
 
 	@ExternalRestrictions("Edit Exam")
 	public static void createExam() {
-		List<tblUser> authorList = new ArrayList<tblUser>();
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		List<TblUser> authorList = new ArrayList<TblUser>();
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		
 		if (Role.isAdmin(currentUser.role)){
-			authorList = tblUser.findAll();			
+			authorList = TblUser.findAll();			
 		}
 		else {
 			authorList.add(currentUser);
@@ -68,11 +68,11 @@ public class Exams extends Controller{
 	public static void editExam(long id) {
 		Exam exam = Exam.findById(id);
 		notFoundIfNull(exam);
-		List<tblUser> authorList = new ArrayList<tblUser>();
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		List<TblUser> authorList = new ArrayList<TblUser>();
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		
 		if (Role.isAdmin(currentUser.role)){
-			authorList = tblUser.findAll();			
+			authorList = TblUser.findAll();			
 		}
 		else {
 			if (exam.author != currentUser) {
@@ -101,10 +101,10 @@ public class Exams extends Controller{
 		}
 		
 		if (validation.hasErrors()) {
-			List<tblUser> authorList = new ArrayList<tblUser>();
-			tblUser currentUser = tblUser.findByLogin(Security.connected());
+			List<TblUser> authorList = new ArrayList<TblUser>();
+			TblUser currentUser = TblUser.findByLogin(Security.connected());
 			if (Role.isAdmin(currentUser.role)){
-				authorList = tblUser.findAll();			
+				authorList = TblUser.findAll();			
 			}
 			else {
 				authorList.add(currentUser);
@@ -115,11 +115,11 @@ public class Exams extends Controller{
 		if (exam.questionSetType == ExamQuestionSetType.RANDOM  && exam.questionList.size() < exam.questionPerExam) {
 			int qSetSize=exam.questionList.size();
 			validation.min(qSetSize, exam.questionPerExam).key("exam.questionPerExam").message("Question Per Exam must be less than or equal "+qSetSize);
-			List<tblUser> authorList = new ArrayList<tblUser>();
-			tblUser currentUser = tblUser.findByLogin(Security.connected());
+			List<TblUser> authorList = new ArrayList<TblUser>();
+			TblUser currentUser = TblUser.findByLogin(Security.connected());
 			
 			if (Role.isAdmin(currentUser.role)){
-				authorList = tblUser.findAll();			
+				authorList = TblUser.findAll();			
 			}
 			else {
 				authorList.add(currentUser);
@@ -144,11 +144,11 @@ public class Exams extends Controller{
 			
 		}
 		catch(PersistenceException pe){
-			List<tblUser> authorList = new ArrayList<tblUser>();
-			tblUser currentUser = tblUser.findByLogin(Security.connected());
+			List<TblUser> authorList = new ArrayList<TblUser>();
+			TblUser currentUser = TblUser.findByLogin(Security.connected());
 			
 			if (Role.isAdmin(currentUser.role)){
-				authorList = tblUser.findAll();			
+				authorList = TblUser.findAll();			
 			}
 			else {
 				authorList.add(currentUser);
@@ -165,7 +165,7 @@ public class Exams extends Controller{
 	public static void listExam() {
 		List<Exam> examList = new ArrayList<Exam>();
 		
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			examList = Exam.findByAuthor(currentUser);
 		}
@@ -329,7 +329,7 @@ public class Exams extends Controller{
 		notFoundIfNull(answerPaper);
 		Exam exam = answerPaper.exam;
 		List<Question> questionList = new ArrayList<Question>();
-		tblUser participate =  tblUser.findByLogin(Security.connected());
+		TblUser participate =  TblUser.findByLogin(Security.connected());
 
 		if (participate != answerPaper.participate) {
 			error(401,"Unauthorized Access");
@@ -433,7 +433,7 @@ public class Exams extends Controller{
 		
 		List<AnswerPaper> answerPaperList = new ArrayList<AnswerPaper>();
 		
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		if (Role.isAdmin(currentUser.role)){
 			answerPaperList = AnswerPaper.find("ORDER BY id DESC").fetch();		
 		}
@@ -450,7 +450,7 @@ public class Exams extends Controller{
 		AnswerPaper answerPaper = AnswerPaper.findById(id);
 		notFoundIfNull(answerPaper);
 		
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			if (currentUser != answerPaper.participate)	{
 				error(401,"Unauthorized Access");
@@ -469,7 +469,7 @@ public class Exams extends Controller{
 		AnswerPaper answerPaper = AnswerPaper.findById(id);
 		notFoundIfNull(answerPaper);
 		
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			if (currentUser != answerPaper.exam.author)	{
 				error(401,"Unauthorized Access");
@@ -488,7 +488,7 @@ public class Exams extends Controller{
 		Exam exam = Exam.findById(id);
 		notFoundIfNull(exam);
 		
-		tblUser currentUser = tblUser.findByLogin(Security.connected());
+		TblUser currentUser = TblUser.findByLogin(Security.connected());
 		if (!Role.isAdmin(currentUser.role)){
 			if (currentUser != exam.author)	{
 				error(401,"Unauthorized Access");
@@ -525,7 +525,7 @@ public class Exams extends Controller{
 
 		}
 
-		tblUser participate = tblUser.findByLogin(Security.connected());
+		TblUser participate = TblUser.findByLogin(Security.connected());
 
 		if (exam.visibility == ExamVisibility.PUBLIC) {
 			AnswerPaper answerPaper = new AnswerPaper(exam, participate).save();
@@ -545,7 +545,7 @@ public class Exams extends Controller{
 	
 	@ExternalRestrictions("Edit Exam")
 	public static void submitComment(Comment comment) {
-		comment.commenter = tblUser.findByLogin(Security.connected());	
+		comment.commenter = TblUser.findByLogin(Security.connected());	
 		
 		validation.valid(comment);
 		

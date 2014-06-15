@@ -18,7 +18,7 @@ import models.Aco;
 
 
 import models.Role;
-import models.tblUser;
+import models.TblUser;
 import play.Logger;
 import play.Play;
 import play.data.validation.Required;
@@ -36,10 +36,10 @@ import controllers.deadbolt.Unrestricted;
 @With(Deadbolt.class)
 public class Users extends Controller {
 
-	@ExternalRestrictions("View tblUser")
+	@ExternalRestrictions("View TblUser")
 	public static void list() {
-		List<tblUser> users = tblUser.find("id <> 1").fetch();
-		render(users);
+		List<TblUser> tblUsers = TblUser.find("id <> 1").fetch();
+		render(tblUsers);
 	}
 	
 	/**Register module*/
@@ -49,7 +49,7 @@ public class Users extends Controller {
 		render(signupRoles);
 	}
 	@Unrestricted
-	public static void register(@Valid tblUser user) {
+	public static void register(@Valid TblUser tblUser) {
 		if (validation.hasErrors()) {
 			List<Role> signupRoles = Role.find("id <> 1").fetch();
 			render("@signup", tblUser, signupRoles);
@@ -60,7 +60,7 @@ public class Users extends Controller {
 		}
 		
 		tblUser.save();
-		flash.success("Hi, " + tblUser.name + " , Please signin by your username and password");
+		flash.success("Hi, " + tblUser.name + " , Please signin by your tblUsername and password");
 		try {
 			Secure.login();
 		} catch (Throwable e) {
@@ -69,16 +69,16 @@ public class Users extends Controller {
 		}
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void create() {
 		List<Role> roles = Role.findAll();
 		render("@edit", roles);
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void edit(Long id) {
-		tblUser tblUser = tblUser.findById(id);
-		notFoundIfNull(tblUser, "user not found");
+		TblUser tblUser = TblUser.findById(id);
+		notFoundIfNull(tblUser, "tblUser not found");
 		tblUser.password = null;
 		List<Role> roles = Role.findAll();
 		render(tblUser, roles);
@@ -86,8 +86,8 @@ public class Users extends Controller {
 
 	@ExternalRestrictions("Edit Profile")
 	public static void profile() {
-		tblUser tblUser = tblUser.findByLogin(Security.connected());
-		notFoundIfNull(tblUser, "user not found");
+		TblUser tblUser = TblUser.findByLogin(Security.connected());
+		notFoundIfNull(tblUser, "tblUser not found");
 		tblUser.password = null;
 		List<Role> roles = Role.findAll();
 		render(tblUser, roles);
@@ -95,7 +95,7 @@ public class Users extends Controller {
 	
 
 	@ExternalRestrictions("Edit Profile")
-	public static void submitProfile(@Valid tblUser tblUser) {
+	public static void submitProfile(@Valid TblUser tblUser) {
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
 			render("@profile", tblUser, roles);
@@ -105,8 +105,8 @@ public class Users extends Controller {
 		profile();
 	}
 	
-	@ExternalRestrictions("Edit tblUser")
-	public static void submit(@Valid tblUser tblUser) {
+	@ExternalRestrictions("Edit TblUser")
+	public static void submit(@Valid TblUser tblUser) {
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
 			render("@edit", tblUser, roles);
@@ -116,14 +116,14 @@ public class Users extends Controller {
 		list();
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void delete(Long id) {
 		if (request.isAjax()) {
 			notFoundIfNull(id, "id not provided");
-			tblUser user = tblUser.findById(id);
-			notFoundIfNull(user, "user not found");
-			String tblUserName = user.login;
-			user.delete();
+			TblUser tblUser = TblUser.findById(id);
+			notFoundIfNull(tblUser, "tblUser not found");
+			String tblUserName = tblUser.login;
+			tblUser.delete();
 			response.status=200;
 			renderText("Username '"  + tblUserName + "'");
 		}
@@ -131,25 +131,25 @@ public class Users extends Controller {
 
 	
 	/* Roles */
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void roleList() {
 		List<Role> roles = Role.find("id <> 1").fetch();
 		render(roles);
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void roleCreate() {
 		render("@roleEdit");
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void roleEdit(Long id) {
 		Role role = Role.findById(id);
-		notFoundIfNull(role, "user not found");
+		notFoundIfNull(role, "tblUser not found");
 		render(role);
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void roleSubmit(@Valid Role role) {
 		if (validation.hasErrors()) {
 			render("@roleEdit", role);
@@ -158,12 +158,12 @@ public class Users extends Controller {
 		roleList();
 	}
 
-	@ExternalRestrictions("Edit tblUser")
+	@ExternalRestrictions("Edit TblUser")
 	public static void roleDelete(Long id) {
 		if (request.isAjax()) {
 			notFoundIfNull(id, "id not provided");
 			Role role = Role.findById(id);
-			notFoundIfNull(role, "user not found");
+			notFoundIfNull(role, "TblUser not found");
 			role.delete();
 			ok();
 		}
@@ -206,25 +206,25 @@ public class Users extends Controller {
 	}
 	
 	@Unrestricted
-	public static void resetPasswordRequest(String userId) {
-		tblUser user = null;
+	public static void resetPasswordRequest(String tblUserId) {
+		TblUser tblUser = null;
 		String passwordResetId = null;
 	
-		if (validation.email(userId).ok) {
-			user = tblUser.findByEmail(userId);
+		if (validation.email(tblUserId).ok) {
+			tblUser = TblUser.findByEmail(tblUserId);
 		}
 		else {
-			user = tblUser.findByLogin(userId);
+			tblUser = TblUser.findByLogin(tblUserId);
 		}
 	
 		
-		if (user != null) {
-			passwordResetId =  Crypto.passwordHash(user.email +(long)(Math.random()*100000 + 3333300000L), HashType.SHA512);
-			user.passwordResetId = passwordResetId;
+		if (tblUser != null) {
+			passwordResetId =  Crypto.passwordHash(tblUser.email +(long)(Math.random()*100000 + 3333300000L), HashType.SHA512);
+			tblUser.passwordResetId = passwordResetId;
 	
 			try {
-				MailSender.sendCommentByGmail(user);
-				user._save();
+				MailSender.sendCommentByGmail(tblUser);
+				tblUser._save();
 				flash.success("Password reset link sent to your email");
 			} catch (MalformedURLException e) {
 				flash.error("Invalid URL!");
@@ -255,21 +255,21 @@ public class Users extends Controller {
 	public static void resetPassword() {
 		String email = request.params.get("email");
 		String passwordResetId = request.params.get("passwordResetId");
-		String newPassword = request.params.get("user.password");
-		String confirmPassword = request.params.get("user.confirmPassword");
+		String newPassword = request.params.get("tblUser.password");
+		String confirmPassword = request.params.get("tblUser.confirmPassword");
 	
-		tblUser user = tblUser.findByEmail(email);
+		TblUser tblUser = TblUser.findByEmail(email);
 		
-		if (user == null) {
+		if (tblUser == null) {
 			flash.error("User not found");
 		}
-		else if (user.passwordResetId != null && user.passwordResetId.equals(passwordResetId)){
-			user.password = newPassword;
-			user.confirmPassword = confirmPassword;
-			user.passwordResetId = null;
+		else if (tblUser.passwordResetId != null && tblUser.passwordResetId.equals(passwordResetId)){
+			tblUser.password = newPassword;
+			tblUser.confirmPassword = confirmPassword;
+			tblUser.passwordResetId = null;
 	
 			if (validation.equals(confirmPassword, newPassword).ok) {
-				user.save();
+				tblUser.save();
 				flash.success("Password Reset Successfully");
 				try {
 					Secure.login();

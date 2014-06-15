@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import annotations.Mobile;
 
-import models.tblUser;
+import models.TblUser;
 import play.mvc.ActionInvoker;
 import play.mvc.Before;
 import play.mvc.Http;
@@ -22,7 +22,7 @@ public class Controller extends play.mvc.Controller {
             }
         } else {
             if(Security.isConnected()) {
-                tblUser currentUser = tblUser.findByLogin(Security.connected());
+                TblUser currentUser = TblUser.findByLogin(Security.connected());
                 renderArgs.put("currentUser", currentUser);
             }
         }

@@ -1,7 +1,7 @@
 package controllers;
 
 import models.Aco;
-import models.tblUser;
+import models.TblUser;
 import models.deadbolt.RoleHolder;
 import play.Logger;
 import controllers.Secure.Security;
@@ -42,7 +42,7 @@ public class AccessControlList extends Controller implements DeadboltHandler {
 	public RoleHolder getRoleHolder() {
 		String name = Secure.Security.connected();
 		// Logger.info(name);
-		return tblUser.find("byLogin", name).first();
+		return TblUser.find("byLogin", name).first();
 	}
 
 	@Override

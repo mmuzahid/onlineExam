@@ -1,6 +1,6 @@
 package controllers;
 
-import models.tblUser;
+import models.TblUser;
 
 /**
  * Security - Security handler.
@@ -15,7 +15,7 @@ public class Security extends Secure.Security {
 	 * @return true, if successful
 	 */
 	static boolean authenticate(String username, String password) {
-		return tblUser.authenticate(username, password) != null;
+		return TblUser.authenticate(username, password) != null;
     }
 
 }
