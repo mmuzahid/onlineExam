@@ -40,7 +40,7 @@ import java.util.*;
  */
 
 @Entity
-@Table(name="tbl_User")
+//@Table(name="tbl_User")
 public class User extends Model implements RoleHolder {
 
 	@Required
