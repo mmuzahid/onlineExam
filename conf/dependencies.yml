@@ -1,7 +1,7 @@
 # Application dependencies
 
 require:
-    - play
+    - play 1.2.5
     - play -> secure
     - play -> deadbolt 1.5.4
     - play -> chronostamp 0.1
