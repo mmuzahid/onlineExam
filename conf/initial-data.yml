@@ -8,7 +8,7 @@ Role(sysuser):
 
 #User
 #
-User(root):
+tblUser(root):
     login:      "root"
     name:       "Root"
     email:      "root@root.com"
