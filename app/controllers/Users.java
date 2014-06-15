@@ -74,6 +74,7 @@ public class Users extends Controller {
 		List<Role> roles = Role.findAll();
 		render("@edit", roles);
 	}
+	
 
 	@ExternalRestrictions("Edit TblUser")
 	public static void edit(Long id) {
