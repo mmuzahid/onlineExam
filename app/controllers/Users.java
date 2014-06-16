@@ -39,7 +39,7 @@ public class Users extends Controller {
 	@ExternalRestrictions("View TblUser")
 	public static void list() {
 		//List<TblUser> tblUsers = TblUser.find("id <> 1").fetch();
-		List<TblUser> tblUsers = TblUser.find("login != root").fetch();
+		List<TblUser> tblUsers = TblUser.find("login <> 'root'").fetch();
 		render(tblUsers);
 	}
 	
