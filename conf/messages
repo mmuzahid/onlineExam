@@ -2,7 +2,7 @@
 # For example, for French create a messages.fr file
 #
 
-application.name=Online Examination System
+application.name=Exam Hub
 
 # ACL
 tblUser.login=Username
