@@ -100,6 +100,15 @@ public class Users extends Controller {
 			List<Role> roles = Role.findAll();
 			render("@profile", user, roles);
 		}
+		
+		User loggedUser = User.findByLogin(Security.connected());
+		if (!Role.isAdmin(loggedUser.role)) {
+			// TODO need to update in future - validation for non-admin users
+			if (Role.isAdmin(user.role) || user.id != loggerUser.id) {	
+				error(401, "Unauthorized Access");
+			}
+		}
+		
 		user.save();
 		flash.success("Profile Saved Successfully.");
 		profile();
