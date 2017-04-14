@@ -61,7 +61,7 @@ public class Users extends Controller {
 		}
 		
 		tblUser.save();
-		flash.success("Hi, " + tblUser.name + " , Please signin by your tblUsername and password");
+		flash.success("Hi, " + tblUser.name + " , Please signin by your Username and Password");
 		try {
 			Secure.login();
 		} catch (Throwable e) {
