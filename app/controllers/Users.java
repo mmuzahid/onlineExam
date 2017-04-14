@@ -98,9 +98,16 @@ public class Users extends Controller {
 
 	@ExternalRestrictions("Edit Profile")
 	public static void submitProfile(@Valid TblUser tblUser) {
+		TblUser loggedUser = TblUser.findByLogin(Security.connected());
 		if (validation.hasErrors()) {
 			List<Role> roles = Role.findAll();
 			render("@profile", tblUser, roles);
+		}
+		
+		if (!Role.isAdmin(loggedUser.role)) {
+			if (Role.isAdmin(tblUser.role) || tblUser.id != loggerUser.id) {	
+				error(401, "Unauthorized Access");
+			}
 		}
 		tblUser.save();
 		flash.success("Profile Saved Successfully.");
