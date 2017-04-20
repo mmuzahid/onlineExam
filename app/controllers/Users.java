@@ -104,7 +104,7 @@ public class Users extends Controller {
 		User loggedUser = User.findByLogin(Security.connected());
 		if (!Role.isAdmin(loggedUser.role)) {
 			// TODO need to update in future - validation for non-admin users
-			if (Role.isAdmin(user.role) || user.id != loggerUser.id) {	
+			if (Role.isAdmin(user.role) || user.id != loggedUser.id) {	
 				error(401, "Unauthorized Access");
 			}
 		}
