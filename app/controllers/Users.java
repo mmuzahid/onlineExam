@@ -105,7 +105,7 @@ public class Users extends Controller {
 		}
 		
 		if (!Role.isAdmin(loggedUser.role)) {
-			if (Role.isAdmin(tblUser.role) || tblUser.id != loggerUser.id) {	
+			if (Role.isAdmin(tblUser.role) || tblUser.id != loggedUser.id) {	
 				error(401, "Unauthorized Access");
 			}
 		}
